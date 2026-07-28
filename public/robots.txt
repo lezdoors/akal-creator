@@ -1,16 +1,8 @@
-User-agent: Googlebot
-Allow: /
-
-User-agent: Bingbot
-Allow: /
-
-User-agent: Twitterbot
-Allow: /
-
-User-agent: facebookexternalhit
-Allow: /
-
 User-agent: *
 Allow: /
 
-Sitemap: https://latitude-marketing-new-build.vercel.app/sitemap.xml
+# Report tokens are credentials, and /go/ links are redirects, not pages.
+Disallow: /r/
+Disallow: /go/
+
+Sitemap: https://creator.akalds.com/sitemap.xml

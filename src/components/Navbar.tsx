@@ -1,37 +1,42 @@
 import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
-import logoIcon from '@/assets/latitude-logo-secondary-dark.png';
-import { useTranslation } from '@/contexts/LanguageContext';
 import { cn } from '@/lib/utils';
 
 interface NavbarProps {
   onBookCall: () => void;
 }
 
+/** Copy lives inline. i18n is retired — do not reintroduce locale keys. */
 const NAV_LINKS = [
-  { labelKey: 'nav.services', href: '/services' },
-  { labelKey: 'nav.caseStudies', href: '/case-studies' },
-  { labelKey: 'nav.about', href: '/about' },
-  { labelKey: 'nav.faq', href: '/faq' },
+  { label: 'What we run', href: '/#services' },
+  { label: 'Tracking', href: '/#tracking' },
+  { label: 'Pricing', href: '/#pricing' },
+  { label: 'FAQ', href: '/#faq' },
 ];
+
+const CTA_LABEL = 'Start a campaign';
+
+/** Pure-type wordmark. No image logo anywhere on this site. */
+const Wordmark: React.FC<{ className?: string }> = ({ className = '' }) => (
+  <span className={cn('flex items-baseline gap-2 min-w-0', className)}>
+    <span className="text-foreground text-[17px] font-bold tracking-[0.18em] uppercase leading-none">
+      AKAL
+    </span>
+    <span className="num text-[10px] uppercase tracking-[0.16em] text-muted-foreground leading-none">
+      / Creator
+    </span>
+  </span>
+);
 
 export const Navbar: React.FC<NavbarProps> = ({ onBookCall }) => {
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
   const navigate = useNavigate();
-  const { t, language, setLanguage, getLocalizedPath } = useTranslation();
-
-  useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 20);
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
 
   useEffect(() => {
     setMobileOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, location.hash]);
 
   useEffect(() => {
     if (!mobileOpen) return;
@@ -48,80 +53,64 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookCall }) => {
   }, [mobileOpen]);
 
   const isActive = (href: string) => {
-    const localizedHref = getLocalizedPath(href);
     if (href.includes('#')) {
-      return location.pathname === localizedHref.split('#')[0] && location.hash === '#' + href.split('#')[1];
+      const [path, hash] = href.split('#');
+      return location.pathname === (path || '/') && location.hash === `#${hash}`;
     }
-    return location.pathname === localizedHref;
+    return location.pathname === href;
   };
 
   const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
-    if (href.includes('#')) {
-      e.preventDefault();
-      const [path, hash] = href.split('#');
-      const localizedPath = getLocalizedPath(path);
+    if (!href.includes('#')) return;
+    e.preventDefault();
+    const [rawPath, hash] = href.split('#');
+    const path = rawPath || '/';
 
-      if (location.pathname === localizedPath || location.pathname === localizedPath + '/') {
-        // Already on the page, just scroll
-        const element = document.getElementById(hash);
-        if (element) {
-          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-      } else {
-        // Navigate to page first, then scroll
-        navigate(localizedPath);
-        setTimeout(() => {
-          const element = document.getElementById(hash);
-          if (element) {
-            element.scrollIntoView({ behavior: 'smooth', block: 'start' });
-          }
-        }, 100);
-      }
+    const scrollToSection = () => {
+      const el = document.getElementById(hash);
+      if (!el) return;
+      const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+      el.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+    };
+
+    if (location.pathname === path || location.pathname === `${path}/`) {
+      scrollToSection();
+    } else {
+      navigate(path);
+      window.setTimeout(scrollToSection, 100);
     }
   };
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-[100] transition-colors duration-200 ${scrolled ? 'bg-background/95 backdrop-blur-sm border-b' : 'bg-transparent'}`}>
-        <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between h-20">
-          <Link to={getLocalizedPath('/')} className="flex items-center gap-3">
-            <img src={logoIcon} alt="Latitude Marketing" className="h-10 w-auto" />
-            <div className="flex flex-col leading-none">
-              <span className="text-foreground text-[15px] font-semibold tracking-[0.08em] uppercase">LATITUDE MARKETING</span>
-              <span className="text-foreground text-[15px] font-semibold tracking-[0.08em] uppercase">AGENCY</span>
-            </div>
+      <nav className="fixed top-0 left-0 right-0 z-[100] bg-background border-b border-border">
+        <div className="max-w-7xl mx-auto px-6 md:px-10 flex items-center justify-between gap-6 h-16 min-w-0">
+          <Link to="/" className="min-w-0" aria-label="AKAL Creator — home">
+            <Wordmark />
           </Link>
 
-          <div className="hidden md:flex items-center gap-0">
-            {/* Language Switcher */}
-            <button
-              onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}
-              className="relative overflow-hidden bg-background text-foreground h-[34px] px-3 flex items-center text-[11px] font-medium uppercase tracking-[0.15em] border border-foreground group"
-            >
-              <span className="relative z-10">{language === 'en' ? 'FR' : 'EN'}</span>
-              <span className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
-            </button>
+          <div className="hidden md:flex items-center gap-8 min-w-0">
             {NAV_LINKS.map(link => (
               <Link
                 key={link.href}
-                to={getLocalizedPath(link.href)}
-                onClick={(e) => handleNavClick(e, link.href)}
+                to={link.href}
+                onClick={e => handleNavClick(e, link.href)}
                 aria-current={isActive(link.href) ? 'page' : undefined}
                 className={cn(
-                  'relative overflow-hidden text-foreground h-[34px] px-3 flex items-center text-[11px] uppercase tracking-[0.15em] border border-foreground border-l-0 group',
-                  isActive(link.href) ? 'bg-accent/20 font-semibold' : 'bg-background font-medium'
+                  'text-[13px] tracking-[0.01em] transition-colors',
+                  isActive(link.href)
+                    ? 'text-foreground'
+                    : 'text-muted-foreground hover:text-foreground',
                 )}
               >
-                <span className="relative z-10">{t(link.labelKey)}</span>
-                <span className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+                {link.label}
               </Link>
             ))}
             <button
               onClick={onBookCall}
-              className="relative overflow-hidden bg-foreground text-background h-[34px] px-4 flex items-center text-[11px] font-medium uppercase tracking-[0.15em] border border-foreground border-l-0 group"
+              className="bg-foreground text-background h-9 px-5 flex items-center text-[12px] font-medium tracking-[0.02em] hover:bg-foreground/90 transition-colors"
             >
-              <span className="relative z-10">{t('nav.bookCall')}</span>
-              <span className="absolute inset-0 bg-accent translate-y-full group-hover:translate-y-0 transition-transform duration-300 ease-out" />
+              {CTA_LABEL}
             </button>
           </div>
 
@@ -129,37 +118,39 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookCall }) => {
             onClick={() => setMobileOpen(!mobileOpen)}
             aria-label={mobileOpen ? 'Close menu' : 'Open menu'}
             aria-expanded={mobileOpen}
-            className="md:hidden text-foreground"
+            className="md:hidden text-foreground shrink-0"
           >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            {mobileOpen ? <X size={22} strokeWidth={1.5} /> : <Menu size={22} strokeWidth={1.5} />}
           </button>
         </div>
       </nav>
 
       {mobileOpen && (
-        <div className="fixed inset-0 bg-background z-[99] pt-20 px-6 flex flex-col gap-6 md:hidden">
-          <button
-            onClick={() => setLanguage(language === 'en' ? 'fr' : 'en')}
-            className="text-foreground text-lg font-medium text-left border-b border-border pb-4"
-          >
-            {language === 'en' ? 'Fran\u00e7ais' : 'English'}
-          </button>
-          {NAV_LINKS.map(link => (
-            <Link
-              key={link.href}
-              to={getLocalizedPath(link.href)}
-              onClick={(e) => handleNavClick(e, link.href)}
-              className="text-foreground text-2xl font-medium text-left"
+        <div className="fixed inset-0 bg-background z-[99] pt-16 md:hidden">
+          <div className="px-6 pt-4">
+            {NAV_LINKS.map((link, i) => (
+              <Link
+                key={link.href}
+                to={link.href}
+                onClick={e => handleNavClick(e, link.href)}
+                className="flex items-baseline gap-4 py-5 border-b border-border text-foreground text-xl"
+              >
+                <span className="num text-[11px] text-muted-foreground">
+                  {String(i + 1).padStart(2, '0')}
+                </span>
+                <span>{link.label}</span>
+              </Link>
+            ))}
+            <button
+              onClick={() => {
+                setMobileOpen(false);
+                onBookCall();
+              }}
+              className="mt-8 bg-foreground text-background h-11 px-6 flex items-center text-[13px] font-medium"
             >
-              {t(link.labelKey)}
-            </Link>
-          ))}
-          <button
-            onClick={() => { setMobileOpen(false); onBookCall(); }}
-            className="bg-foreground text-background text-sm uppercase tracking-[0.15em] px-6 py-3 mt-4 w-fit"
-          >
-            {t('nav.bookCall')}
-          </button>
+              {CTA_LABEL}
+            </button>
+          </div>
         </div>
       )}
     </>

@@ -1,59 +1,86 @@
 import React from 'react';
-import { useTranslation } from '@/contexts/LanguageContext';
-import {
-  Accordion,
-  AccordionItem,
-  AccordionTrigger,
-  AccordionContent,
-} from '@/components/ui/accordion';
+import { SectionShell } from '@/components/SectionShell';
+import { Reveal } from '@/components/Reveal';
 
-const STEP_KEYS = ['audit', 'fix', 'scale'];
+interface Step {
+  /** Two-digit mono index shown in the step gutter. */
+  n: string;
+  /** Mono sub-label under the index. */
+  kicker: string;
+  /** The step itself, set in wide type. */
+  body: string;
+  /** Step 03 is the only one carrying the live-data mark. */
+  live?: boolean;
+}
 
-export const Process: React.FC = () => {
-  const { t } = useTranslation();
+const STEPS: readonly Step[] = [
+  {
+    n: '01',
+    kicker: 'Brief',
+    body: 'You give us an audience, a budget, and the metric that matters.',
+  },
+  {
+    n: '02',
+    kicker: 'Shortlist',
+    body: 'You approve a shortlist. We handle contracts, briefs, and payment.',
+  },
+  {
+    n: '03',
+    kicker: 'Dashboard',
+    body: 'You watch the dashboard. Per-creator clicks, signups, and CPA — updated as they land.',
+    live: true,
+  },
+];
 
-  return (
-    <section className="py-20 md:py-28 px-6 md:px-10 border-y border-border">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-12">
-          <p className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-3">{t('process.label')}</p>
-          <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground">{t('process.title')}</h2>
-        </div>
-
-        {/* Desktop: 3-col grid */}
-        <div className="hidden md:grid md:grid-cols-3 gap-[1px] bg-border">
-          {STEP_KEYS.map((key, i) => (
-            <div
-              key={key}
-              className="bg-background p-8 md:p-10 animate-fade-in"
-              style={{ animationDelay: `${i * 0.1}s` }}
-            >
-              <span className="text-accent text-3xl font-medium mb-4 block">{t(`process.steps.${key}.num`)}</span>
-              <h3 className="text-foreground text-xl font-medium mb-3">{t(`process.steps.${key}.title`)}</h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t(`process.steps.${key}.desc`)}</p>
+/**
+ * 02 / PROCESS — "How it works".
+ *
+ * Three hairline-separated rows, mono index in the step gutter, the step itself
+ * in wide type. No cards, no icons, no imagery. The single rose mark sits on
+ * step 03, where the data is actually live.
+ */
+export const Process: React.FC = () => (
+  <SectionShell
+    id="how-it-works"
+    index="02"
+    label="PROCESS"
+    title="How it works"
+    lede="Three steps. You approve the spend and read the numbers; we do the sourcing, the paperwork, and the payments."
+  >
+    <ol className="min-w-0 border-t border-border">
+      {STEPS.map((step, i) => (
+        <Reveal
+          as="li"
+          key={step.n}
+          delay={i * 90}
+          className="block min-w-0 border-b border-border"
+        >
+          <div className="grid grid-cols-12 items-start gap-x-6 py-10 md:gap-x-8 md:py-14">
+            {/* Step gutter — index over kicker, both mono. */}
+            <div className="col-span-12 mb-5 min-w-0 md:col-span-3 md:mb-0 lg:col-span-2">
+              <div className="num text-[15px] font-medium leading-none text-foreground">
+                {step.n}
+              </div>
+              <div className="row-label mt-2.5 flex items-center gap-2">
+                {step.live && (
+                  <span
+                    aria-hidden="true"
+                    className="inline-block h-[6px] w-[6px] shrink-0 bg-accent"
+                  />
+                )}
+                <span>{step.kicker}</span>
+              </div>
             </div>
-          ))}
-        </div>
 
-        {/* Mobile: accordion */}
-        <div className="md:hidden">
-          <Accordion type="single" collapsible defaultValue="audit">
-            {STEP_KEYS.map((key) => (
-              <AccordionItem key={key} value={key}>
-                <AccordionTrigger className="text-foreground text-base hover:no-underline">
-                  <span className="flex items-center gap-3">
-                    <span className="text-accent font-medium">{t(`process.steps.${key}.num`)}</span>
-                    {t(`process.steps.${key}.title`)}
-                  </span>
-                </AccordionTrigger>
-                <AccordionContent className="text-muted-foreground text-sm leading-relaxed">
-                  {t(`process.steps.${key}.desc`)}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
-        </div>
-      </div>
-    </section>
-  );
-};
+            {/* The step. Wide type, left-aligned, one idea per row. */}
+            <p className="col-span-12 min-w-0 max-w-[26ch] text-[clamp(1.25rem,2.6vw,2rem)] font-medium leading-[1.24] tracking-[-0.018em] md:col-span-9 lg:col-span-10 lg:max-w-[30ch]">
+              {step.body}
+            </p>
+          </div>
+        </Reveal>
+      ))}
+    </ol>
+  </SectionShell>
+);
+
+export default Process;

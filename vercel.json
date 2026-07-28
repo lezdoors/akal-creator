@@ -1,3 +1,6 @@
 {
-  "rewrites": [{ "source": "/((?!api/).*)", "destination": "/index.html" }]
+  "rewrites": [
+    { "source": "/go/:code", "destination": "/api/go?code=:code" },
+    { "source": "/((?!api/|go/).*)", "destination": "/index.html" }
+  ]
 }

@@ -1,64 +1,69 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import logoWhite from '@/assets/latitude-logo-secondary-white.png';
-import { useTranslation } from '@/contexts/LanguageContext';
 
 interface FooterProps {
   onBookCall?: () => void;
 }
 
-export const Footer: React.FC<FooterProps> = ({ onBookCall }) => {
-  const { t, getLocalizedPath } = useTranslation();
-
-  return (
-    <footer className="bg-foreground text-white">
-      <div className="max-w-7xl mx-auto px-6 md:px-10 py-10 md:py-14">
-        <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10">
-          {/* Brand */}
-          <div className="flex items-center gap-4">
-            <img src={logoWhite} alt="Latitude" className="h-16 w-auto" />
-            <p className="text-white/40 text-sm max-w-[240px]">
-              {t('footer.tagline')}
-            </p>
+/** Copy lives inline. i18n is retired — do not reintroduce locale keys. */
+export const Footer: React.FC<FooterProps> = ({ onBookCall }) => (
+  <footer className="border-t border-border bg-background">
+    <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-16">
+      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10 min-w-0">
+        <div className="min-w-0">
+          <div className="flex items-baseline gap-2">
+            <span className="text-foreground text-[17px] font-bold tracking-[0.18em] uppercase leading-none">
+              AKAL
+            </span>
+            <span className="num text-[10px] uppercase tracking-[0.16em] text-muted-foreground leading-none">
+              / Creator
+            </span>
           </div>
-
-          {/* Nav + Legal Links */}
-          <div className="flex gap-12">
-            <ul className="space-y-2">
-              <li><Link to={getLocalizedPath('/services')} className="text-white/50 text-sm hover:text-white transition-colors">{t('nav.services')}</Link></li>
-              <li><Link to={getLocalizedPath('/case-studies')} className="text-white/50 text-sm hover:text-white transition-colors">{t('nav.caseStudies')}</Link></li>
-              <li><Link to={getLocalizedPath('/about')} className="text-white/50 text-sm hover:text-white transition-colors">{t('nav.about')}</Link></li>
-              <li><Link to={getLocalizedPath('/faq')} className="text-white/50 text-sm hover:text-white transition-colors">{t('nav.faq')}</Link></li>
-            </ul>
-            <ul className="space-y-2">
-              <li><Link to={getLocalizedPath('/privacy')} className="text-white/50 text-sm hover:text-white transition-colors">{t('footer.privacy')}</Link></li>
-              <li><Link to={getLocalizedPath('/terms')} className="text-white/50 text-sm hover:text-white transition-colors">{t('footer.terms')}</Link></li>
-            </ul>
-            <div className="flex flex-col justify-start gap-2">
-              <a
-                href="mailto:hello@latitudemarketing.agency"
-                className="text-white/50 text-sm hover:text-white transition-colors"
-              >
-                hello@latitudemarketing.agency
-              </a>
-              <button
-                onClick={onBookCall}
-                className="text-left text-white text-sm underline underline-offset-4 decoration-accent hover:text-accent transition-colors w-fit"
-              >
-                {t('nav.bookCall')}
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-white/10">
-        <div className="max-w-7xl mx-auto px-6 md:px-10 py-4">
-          <p className="text-white/25 text-xs">
-            {t('footer.copyright')}
+          <p className="text-muted-foreground text-sm mt-4 max-w-[34ch] leading-relaxed">
+            Managed creator marketing for B2B SaaS and AI tools. Every placement
+            tracked to clicks and signups.
           </p>
         </div>
+
+        <div className="flex flex-wrap gap-x-12 gap-y-6 min-w-0">
+          <ul className="space-y-2.5">
+            <li>
+              <Link
+                to="/privacy"
+                className="text-muted-foreground text-sm hover:text-foreground transition-colors"
+              >
+                Privacy
+              </Link>
+            </li>
+            <li>
+              <Link
+                to="/terms"
+                className="text-muted-foreground text-sm hover:text-foreground transition-colors"
+              >
+                Terms
+              </Link>
+            </li>
+          </ul>
+
+          {onBookCall && (
+            <button
+              onClick={onBookCall}
+              className="self-start text-foreground text-sm underline underline-offset-4 decoration-border hover:decoration-foreground transition-colors"
+            >
+              Start a campaign
+            </button>
+          )}
+        </div>
       </div>
-    </footer>
-  );
-};
+    </div>
+
+    <div className="border-t border-border">
+      <div className="max-w-7xl mx-auto px-6 md:px-10 py-5 min-w-0">
+        <p className="text-muted-foreground text-xs leading-relaxed">
+          Operated by Akal Digital Services Ltd · Registered in England &amp;
+          Wales · No. <span className="num">17229387</span>
+        </p>
+      </div>
+    </div>
+  </footer>
+);

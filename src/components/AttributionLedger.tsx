@@ -74,10 +74,14 @@ const Row: React.FC<{ row: LedgerRow; index: number }> = ({ row, index }) => (
     >
       {usd(row.cpaCents)}
     </td>
+    {/* Status reads in ink vs faded, not in accent. Nine rows of rose put ten
+        accent marks in the hero viewport against a budget of three (register
+        rule 6); the bought/passed split is already carried by the row's ink
+        value and by the positive CPA column, which rule 7 allows. */}
     <td className="py-3 pl-3 w-[76px]">
       <span
         className={`num text-[10px] uppercase tracking-[0.12em] ${
-          row.bought ? 'text-accent' : 'text-muted-foreground/60'
+          row.bought ? 'text-foreground' : 'text-muted-foreground/60'
         }`}
       >
         {row.bought ? 'Bought' : 'Passed'}
@@ -188,8 +192,12 @@ export const AttributionLedger: React.FC = () => {
           </div>
         </div>
 
-        {/* Provenance. Non-negotiable — these are not client results. */}
-        <p className="row-label mt-4 pt-3 border-t border-border/70 !text-[10px]">
+        {/* Provenance. Non-negotiable — these are not client results.
+            Ink at the row-label's own 11px, not 10px muted: muted grey
+            (#737373) on paper (#FAF8F1) is 4.46:1, under the 4.5:1 floor for
+            text this size. This label is the only thing making an illustrative
+            ledger lawful to show, so it has to be readable. */}
+        <p className="row-label mt-4 pt-3 border-t border-border/70 !text-foreground">
           Example campaign · illustrative figures · not client results
         </p>
       </div>

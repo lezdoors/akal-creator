@@ -1,71 +1,113 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
-import { useTranslation } from '@/contexts/LanguageContext';
+import { SectionShell } from '@/components/SectionShell';
+import { Reveal } from '@/components/Reveal';
 
-const SERVICE_KEYS = ['paidMedia', 'campaign', 'creative', 'conversion', 'growth', 'analytics'];
+/** One stage of the loop. `span` is the row range it covers, in mono. */
+interface Stage {
+  word: string;
+  span: string;
+}
 
-export const Services: React.FC = () => {
-  const { t, getLocalizedPath } = useTranslation();
+const STAGES: readonly Stage[] = [
+  { word: 'Source', span: '01' },
+  { word: 'Negotiate', span: '02–04' },
+  { word: 'Attribute', span: '05' },
+] as const;
 
-  return (
-    <section id="services" className="py-20 md:py-28 px-6 md:px-10">
-      <div className="max-w-7xl mx-auto">
-        <div className="mb-12 flex items-end justify-between">
-          <div>
-            <p className="text-[11px] uppercase tracking-[0.25em] text-muted-foreground mb-3">{t('services.label')}</p>
-            <h2 className="text-3xl md:text-4xl font-medium tracking-tight text-foreground">{t('services.title')}</h2>
+interface ServiceRow {
+  index: string;
+  title: string;
+  body: string;
+}
+
+const ROWS: readonly ServiceRow[] = [
+  {
+    index: '01',
+    title: 'Sourcing',
+    body:
+      'We find creators whose audience is actually your buyer, ranked on median recent views rather than subscriber counts.',
+  },
+  {
+    index: '02',
+    title: 'Pricing',
+    body:
+      'We model what a placement is worth on a CPM basis and negotiate against that number, not against a rate card.',
+  },
+  {
+    index: '03',
+    title: 'Contracts and briefs',
+    body: 'Agreements, deliverables, revision rounds, usage rights.',
+  },
+  {
+    index: '04',
+    title: 'Payments',
+    body: 'We pay creators, in their currency, on our paper. You get one invoice.',
+  },
+  {
+    index: '05',
+    title: 'Attribution',
+    body:
+      'Every placement gets a unique tracked link; clicks and signups land in a dashboard you can open any time.',
+  },
+] as const;
+
+/** Rows stagger in at the house 60ms interval. */
+const STAGGER_MS = 60;
+
+export const Services: React.FC = () => (
+  <SectionShell
+    id="services"
+    index="01"
+    label="SOURCING"
+    title="What we run"
+    lede="One managed loop: we find the creators, agree the price, run the paperwork and the payments, and track what every placement returns."
+  >
+    {/* The triad. Three cells, hairline-divided, left-aligned. */}
+    <Reveal className="border-y border-border grid grid-cols-1 sm:grid-cols-3 divide-y divide-border sm:divide-y-0 sm:divide-x">
+      {STAGES.map((stage) => (
+        <div key={stage.word} className="min-w-0 py-5 sm:py-6 sm:px-6 sm:first:pl-0">
+          <div className="num text-[11px] uppercase tracking-[0.14em] text-muted-foreground">
+            {stage.span}
           </div>
-          <Link
-            to={getLocalizedPath('/services')}
-            className="hidden md:inline-block text-[11px] uppercase tracking-[0.15em] text-foreground border-b border-foreground pb-0.5 hover:text-accent hover:border-accent transition-colors"
-          >
-            {t('services.viewAll')} →
-          </Link>
+          <div className="mt-2 text-[19px] md:text-[22px] font-medium tracking-[-0.015em] leading-none">
+            {stage.word}
+          </div>
         </div>
+      ))}
+    </Reveal>
 
-        {/* Desktop: grid */}
-        <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-[1px] bg-border">
-          {SERVICE_KEYS.map((key, i) => (
-            <Link
-              key={key}
-              to={getLocalizedPath('/services')}
-              className="group bg-background p-8 md:p-10 animate-fade-in hover:bg-accent/5 transition-colors"
-              style={{ animationDelay: `${i * 0.08}s` }}
-            >
-              <h3 className="text-foreground text-lg font-medium mb-3 group-hover:text-accent transition-colors">
-                {t(`services.items.${key}.title`)}
-                <span className="inline-block ml-2 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" aria-hidden="true">→</span>
+    {/* Five rows. Mono index, title, one sentence. */}
+    <ul className="mt-12 md:mt-16 border-b border-border">
+      {ROWS.map((row, i) => (
+        <Reveal
+          as="li"
+          key={row.index}
+          delay={i * STAGGER_MS}
+          className="rule"
+        >
+          <div className="grid grid-cols-12 gap-x-4 md:gap-x-8 py-5 md:py-6">
+            <div className="col-span-2 md:col-span-1 min-w-0">
+              <span className="num text-[12px] text-muted-foreground leading-[1.6]">
+                {row.index}
+              </span>
+            </div>
+
+            <div className="col-span-10 md:col-span-4 min-w-0">
+              <h3 className="text-[17px] md:text-[19px] font-medium tracking-[-0.012em] leading-snug">
+                {row.title}
               </h3>
-              <p className="text-muted-foreground text-sm leading-relaxed">{t(`services.items.${key}.desc`)}</p>
-            </Link>
-          ))}
-        </div>
+            </div>
 
-        {/* Mobile: horizontal scroll */}
-        <div className="md:hidden -mx-6 px-6 overflow-x-auto scrollbar-hide">
-          <div className="flex gap-3 w-max pb-4">
-            {SERVICE_KEYS.map((key) => (
-              <Link
-                key={key}
-                to={getLocalizedPath('/services')}
-                className="w-[280px] shrink-0 border border-border bg-background p-6"
-              >
-                <h3 className="text-foreground text-lg font-medium mb-3">{t(`services.items.${key}.title`)}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{t(`services.items.${key}.desc`)}</p>
-              </Link>
-            ))}
+            <div className="col-span-10 col-start-3 md:col-span-7 md:col-start-auto min-w-0 mt-2 md:mt-0">
+              <p className="text-[15px] leading-relaxed text-muted-foreground max-w-[56ch]">
+                {row.body}
+              </p>
+            </div>
           </div>
-        </div>
+        </Reveal>
+      ))}
+    </ul>
+  </SectionShell>
+);
 
-        <div className="mt-6 md:hidden">
-          <Link
-            to={getLocalizedPath('/services')}
-            className="text-[11px] uppercase tracking-[0.15em] text-foreground border-b border-foreground pb-0.5 hover:text-accent hover:border-accent transition-colors"
-          >
-            {t('services.viewAllMobile')} →
-          </Link>
-        </div>
-      </div>
-    </section>
-  );
-};
+export default Services;

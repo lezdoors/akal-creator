@@ -1,87 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://latitude-marketing-new-build.vercel.app</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app"/>
+    <loc>https://creator.akalds.com/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/fr</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app"/>
+    <loc>https://creator.akalds.com/privacy</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
   <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/services</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/services"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/services"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/services"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/fr/services</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/services"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/services"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/services"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/case-studies</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/case-studies"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/case-studies"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/case-studies"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/fr/case-studies</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/case-studies"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/case-studies"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/case-studies"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/about</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/about"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/about"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/about"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/fr/about</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/about"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/about"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/about"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/faq</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/faq"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/faq"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/faq"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/fr/faq</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/faq"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/faq"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/faq"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/privacy</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/privacy"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/privacy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/privacy"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/fr/privacy</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/privacy"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/privacy"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/privacy"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/terms</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/terms"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/terms"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/terms"/>
-  </url>
-  <url>
-    <loc>https://latitude-marketing-new-build.vercel.app/fr/terms</loc>
-    <xhtml:link rel="alternate" hreflang="en" href="https://latitude-marketing-new-build.vercel.app/terms"/>
-    <xhtml:link rel="alternate" hreflang="fr" href="https://latitude-marketing-new-build.vercel.app/fr/terms"/>
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://latitude-marketing-new-build.vercel.app/terms"/>
+    <loc>https://creator.akalds.com/terms</loc>
+    <changefreq>yearly</changefreq>
+    <priority>0.2</priority>
   </url>
 </urlset>

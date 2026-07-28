@@ -70,10 +70,10 @@
     --muted-foreground: 0 0% 45%;  /* #737373 */
 
     --accent: 340 75% 52%;         /* #E02966 rose — CTAs and marks only.
-                                      340° deliberately, not Latitude's 292°
-                                      magenta: hue separation is one of the
-                                      three axes keeping this from reading as
-                                      a recolour of that site. */
+                                      340° deliberately, not the 292° magenta
+                                      of the source geometry: hue separation is
+                                      one of the three axes keeping this from
+                                      reading as a recolour of that site. */
     --accent-foreground: 47 47% 96%;
 
     --positive: 156 78% 27%;       /* #0F7B4F — ledger deltas only */

@@ -2,121 +2,163 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ---------------------------------------------------------------------------
+   Typefaces — self-hosted. No external font hosts, ever.
+   Satoshi   : display + UI
+   CommitMono: every figure on the site, always with tabular-nums
+--------------------------------------------------------------------------- */
+
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-400.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-500.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-700.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Satoshi';
+  src: url('/fonts/Satoshi-900.woff2') format('woff2');
+  font-weight: 900; font-style: normal; font-display: swap;
+}
+
+@font-face {
+  font-family: 'Commit Mono';
+  src: url('/fonts/CommitMono-400.woff2') format('woff2');
+  font-weight: 400; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Commit Mono';
+  src: url('/fonts/CommitMono-500.woff2') format('woff2');
+  font-weight: 500; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'Commit Mono';
+  src: url('/fonts/CommitMono-700.woff2') format('woff2');
+  font-weight: 700; font-style: normal; font-display: swap;
+}
+
+/* ---------------------------------------------------------------------------
+   Register tokens — AKAL Creator
+   Warm paper ground, hard corners, hairline rules, vermillion accent.
+   Light only. No dark mode in v1.
+--------------------------------------------------------------------------- */
+
 @layer base {
   :root {
-    --background: 48 33% 97%;
-    --foreground: 0 0% 10%;
+    --background: 47 47% 96%;      /* #FAF8F1 warm paper */
+    --foreground: 0 0% 10%;        /* #1A1A1A ink        */
 
-    --card: 48 33% 97%;
+    --card: 47 47% 96%;
     --card-foreground: 0 0% 10%;
-
-    --popover: 48 33% 97%;
+    --popover: 47 47% 96%;
     --popover-foreground: 0 0% 10%;
 
     --primary: 0 0% 10%;
-    --primary-foreground: 48 33% 97%;
+    --primary-foreground: 47 47% 96%;
 
-    --secondary: 48 20% 93%;
+    --secondary: 45 25% 93%;       /* banded section paper */
     --secondary-foreground: 0 0% 10%;
+    --muted: 45 25% 93%;
+    --muted-foreground: 0 0% 45%;  /* #737373 */
 
-    --muted: 48 20% 93%;
-    --muted-foreground: 0 0% 45%;
+    --accent: 10 68% 50%;          /* #D6462A vermillion — CTAs and marks only */
+    --accent-foreground: 47 47% 96%;
 
-    --accent: 292 84% 61%;
-    --accent-foreground: 0 0% 10%;
+    --positive: 156 78% 27%;       /* #0F7B4F — ledger deltas only */
+    --negative: 4 64% 46%;         /* #C2352A — ledger deltas only */
 
-    --destructive: 0 84% 60%;
-    --destructive-foreground: 0 0% 98%;
+    --destructive: 4 64% 46%;
+    --destructive-foreground: 47 47% 96%;
 
-    --border: 0 0% 85%;
+    --border: 0 0% 85%;            /* #D9D9D9 hairline */
     --input: 0 0% 85%;
-    --ring: 292 84% 61%;
+    --ring: 10 68% 50%;
 
+    /* Hard corners. This is load-bearing — do not soften. */
     --radius: 0rem;
-
-    --sidebar-background: 0 0% 98%;
-    --sidebar-foreground: 240 5.3% 26.1%;
-    --sidebar-primary: 240 5.9% 10%;
-    --sidebar-primary-foreground: 0 0% 98%;
-    --sidebar-accent: 240 4.8% 95.9%;
-    --sidebar-accent-foreground: 240 5.9% 10%;
-    --sidebar-border: 220 13% 91%;
-    --sidebar-ring: 292 84% 61%;
   }
 
-  .dark {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 95%;
-    --card: 0 0% 6%;
-    --card-foreground: 0 0% 95%;
-    --popover: 0 0% 6%;
-    --popover-foreground: 0 0% 95%;
-    --primary: 0 0% 95%;
-    --primary-foreground: 0 0% 10%;
-    --secondary: 0 0% 14%;
-    --secondary-foreground: 0 0% 95%;
-    --muted: 0 0% 14%;
-    --muted-foreground: 0 0% 65%;
-    --accent: 292 84% 61%;
-    --accent-foreground: 0 0% 10%;
-    --destructive: 0 63% 31%;
-    --destructive-foreground: 0 0% 95%;
-    --border: 0 0% 18%;
-    --input: 0 0% 18%;
-    --ring: 292 84% 61%;
-  }
-}
-
-@layer base {
   * {
     @apply border-border;
   }
 
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
   body {
     @apply bg-background text-foreground;
-    font-family: 'Host Grotesk', -apple-system, BlinkMacSystemFont, sans-serif;
+    font-family: 'Satoshi', -apple-system, BlinkMacSystemFont, sans-serif;
+  }
+
+  /* Every figure is mono and tabular, so columns never reflow mid-count. */
+  .num,
+  code, kbd, samp, pre {
+    font-family: 'Commit Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    font-variant-numeric: tabular-nums;
+    font-feature-settings: 'tnum' 1;
   }
 }
 
-@keyframes fade-in {
-  from { opacity: 0; transform: translateY(12px); }
-  to { opacity: 1; transform: translateY(0); }
+/* ---------------------------------------------------------------------------
+   Ledger grammar
+--------------------------------------------------------------------------- */
+
+@layer components {
+  /* Section row label in the left gutter: 01 / SOURCING */
+  .row-label {
+    font-family: 'Commit Mono', ui-monospace, monospace;
+    @apply text-[11px] uppercase tracking-[0.14em] text-muted-foreground;
+  }
+
+  /* Edge-to-edge hairline. The structural device of the whole page. */
+  .rule {
+    @apply border-t border-border;
+  }
+
+  /* Numbers right-align to a shared column axis across sections. */
+  .col-num {
+    @apply text-right;
+    font-family: 'Commit Mono', ui-monospace, monospace;
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Motion — CSS only, no framer-motion.
+--------------------------------------------------------------------------- */
+
+@keyframes appear {
+  from { opacity: 0; transform: translateY(10px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes appear-zoom {
+  from { opacity: 0; transform: scale(0.98); }
+  to   { opacity: 1; transform: scale(1); }
 }
 
 @keyframes slide-in-right {
   from { transform: translateX(100%); }
-  to { transform: translateX(0); }
+  to   { transform: translateX(0); }
 }
 
-@keyframes spin-slow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.animate-appear {
+  animation: appear 0.5s ease-out forwards;
+  opacity: 0;
 }
 
-@keyframes aurora-1 {
-  0%, 100% { transform: translate(0%, 0%) scale(1); }
-  50%      { transform: translate(8%, -6%) scale(1.15); }
-}
-
-@keyframes aurora-2 {
-  0%, 100% { transform: translate(0%, 0%) scale(1); }
-  50%      { transform: translate(-10%, 8%) scale(1.1); }
-}
-
-@keyframes word-rotate {
-  0%   { opacity: 0; transform: translateY(0.6em); filter: blur(10px); }
-  18%  { opacity: 1; transform: translateY(0);     filter: blur(0); }
-  82%  { opacity: 1; transform: translateY(0);     filter: blur(0); }
-  100% { opacity: 0; transform: translateY(-0.6em); filter: blur(10px); }
-}
-
-@keyframes hero-headline-in {
-  from { opacity: 0; transform: translateY(0.4em); filter: blur(8px); }
-  to   { opacity: 1; transform: translateY(0);     filter: blur(0); }
-}
-
-.animate-fade-in {
-  animation: fade-in 0.6s ease-out forwards;
+.animate-appear-zoom {
+  animation: appear-zoom 0.5s ease-out forwards;
   opacity: 0;
 }
 
@@ -124,53 +166,23 @@
   animation: slide-in-right 0.3s ease-out forwards;
 }
 
-.animate-spin-slow {
-  animation: spin-slow 12s linear infinite;
-}
-
-.animate-aurora-1 {
-  animation: aurora-1 18s ease-in-out infinite;
-}
-
-.animate-aurora-2 {
-  animation: aurora-2 22s ease-in-out infinite;
-}
-
-.animate-word-rotate {
-  animation: word-rotate 3s ease-in-out forwards;
-}
-
-.animate-headline-in {
-  animation: hero-headline-in 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
-  opacity: 0;
-}
+.delay-100  { animation-delay: 100ms; }
+.delay-300  { animation-delay: 300ms; }
+.delay-700  { animation-delay: 700ms; }
+.delay-1000 { animation-delay: 1000ms; }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-aurora-1,
-  .animate-aurora-2,
-  .animate-word-rotate,
-  .animate-headline-in,
-  .animate-fade-in,
-  .animate-spin-slow,
-  .animate-marquee-left,
-  .animate-marquee-right,
-  .animate-slide-in-right {
-    animation: none !important;
-    opacity: 1 !important;
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
-}
-
-/* Brand keyboard focus ring */
-:focus-visible {
-  outline: 2px solid hsl(var(--accent));
-  outline-offset: 2px;
-}
-
-/* Hide scrollbar but keep scroll functionality */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+  .animate-appear,
+  .animate-appear-zoom {
+    opacity: 1;
+    transform: none;
+  }
 }

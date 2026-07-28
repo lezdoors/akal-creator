@@ -69,7 +69,11 @@
     --muted: 45 25% 93%;
     --muted-foreground: 0 0% 45%;  /* #737373 */
 
-    --accent: 10 68% 50%;          /* #D6462A vermillion — CTAs and marks only */
+    --accent: 340 75% 52%;         /* #E02966 rose — CTAs and marks only.
+                                      340° deliberately, not Latitude's 292°
+                                      magenta: hue separation is one of the
+                                      three axes keeping this from reading as
+                                      a recolour of that site. */
     --accent-foreground: 47 47% 96%;
 
     --positive: 156 78% 27%;       /* #0F7B4F — ledger deltas only */
@@ -80,7 +84,7 @@
 
     --border: 0 0% 85%;            /* #D9D9D9 hairline */
     --input: 0 0% 85%;
-    --ring: 10 68% 50%;
+    --ring: 340 75% 52%;
 
     /* Hard corners. This is load-bearing — do not soften. */
     --radius: 0rem;

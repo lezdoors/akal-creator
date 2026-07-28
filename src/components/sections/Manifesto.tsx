@@ -139,11 +139,12 @@ export const Manifesto: React.FC<ManifestoProps> = ({
             ))}
           </div>
 
-          {/* Stage. Pins for the length of the track, releases at its end.
-              56vh tall at top-[22vh] keeps the word on the viewport midline
-              and keeps the void after the release to one section pad. */}
+          {/* Stage. Full-viewport sticky at top-0 so it unpins EXACTLY when the
+              track ends. A shorter sticky (e.g. h-56vh at top-22vh) releases
+              early and the remaining track scrolls past as dead paper — that
+              bug left ~1200px of empty ground before the next section. */}
           <div className="col-start-1 row-start-1 min-w-0">
-            <div className="sticky top-[22vh] h-[56vh] flex flex-col justify-center min-w-0">
+            <div className="sticky top-0 h-screen flex flex-col justify-center min-w-0">
               <div className="relative w-full min-w-0 min-h-[13rem]">
                 {WORDS.map((w, i) => (
                   <Word

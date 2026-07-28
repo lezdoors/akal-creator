@@ -241,9 +241,12 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
           </ol>
 
           <p className="mt-6 text-[13.5px] leading-relaxed text-muted-foreground max-w-[46ch]">
-            No cookies, no fingerprinting, no cross-site pixel. A click id in the
-            URL and a postback from your own backend — the same mechanism your
-            affiliate stack already speaks.
+            {/* Accuracy: api/go.js DOES set one first-party cookie (akal_ref),
+                and PrivacyPage discloses it. Claiming "no cookies" here would
+                contradict both our own code and our own privacy notice. */}
+            No third-party cookies, no fingerprinting, no cross-site pixel. One
+            first-party cookie, a click id in the URL, and a postback from your
+            own backend — the same mechanism your affiliate stack already speaks.
           </p>
         </div>
 

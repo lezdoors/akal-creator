@@ -22,7 +22,7 @@ site for its geometry only — no other brand appears anywhere.
 | Axis | Lock |
 |---|---|
 | Type | **Satoshi** (UI/display) + **Commit Mono** (all figures) — self-hosted in `public/fonts` |
-| Ground | Paper `#FAF8F1` · ink `#1A1A1A` · muted `#737373` · rules `#D9D9D9` |
+| Ground | White `#FFFFFF` alternating with band `#F6F7F9` · ink `#171717` · muted `#6B6B6B` · rules `#E1E4E8` |
 | Grammar | **The ledger** — the page is a document, not a deck |
 | Signature | **Live attribution ledger** in the hero (`src/components/AttributionLedger.tsx`) |
 | Imagery | **None.** Zero photography, stock, illustration, 3D, gradients, mockups |
@@ -35,6 +35,10 @@ site for its geometry only — no other brand appears anywhere.
    ground value only.
 3. **Hairline rules are the structural device.** 1px `border-border`, edge to
    edge. This is what makes it read as a document.
+3b. **Sections alternate white / band down the page.** `SectionShell` derives
+   this from the section `index` parity, so the rhythm cannot drift out of step
+   when sections are reordered. The band is cool (`220 14% 97%`), never warm —
+   a warm band on white reads as a stain, a cool one reads as a plate.
 4. **Left-aligned throughout.** Nothing centred.
 5. **Every figure is Commit Mono with `tabular-nums`** — use the `.num` or
    `.col-num` class. A number in the sans face is a bug.

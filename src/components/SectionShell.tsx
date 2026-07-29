@@ -49,14 +49,17 @@ export const SectionShell: React.FC<SectionShellProps> = ({
   contentClassName,
   lede,
   hairline = true,
-  tone = 'paper',
+  tone,
 }) => (
   <section
     id={id}
     className={cn(
       'w-full',
       hairline && 'border-t border-border',
-      tone === 'band' && 'bg-secondary/50',
+      // Alternate white / band down the page. Derived from the section index
+      // rather than threaded through every call site, so the rhythm can never
+      // drift out of step when sections are reordered or inserted.
+      (tone ?? (Number(index) % 2 === 0 ? 'band' : 'paper')) === 'band' && 'bg-secondary',
       className,
     )}
   >

@@ -47,43 +47,48 @@
 
 /* ---------------------------------------------------------------------------
    Register tokens — AKAL Creator
-   Warm paper ground, hard corners, hairline rules, vermillion accent.
+   Crisp white ground with alternating tonal bands, hard corners, hairline rules.
    Light only. No dark mode in v1.
 --------------------------------------------------------------------------- */
 
 @layer base {
   :root {
-    --background: 47 47% 96%;      /* #FAF8F1 warm paper */
-    --foreground: 0 0% 10%;        /* #1A1A1A ink        */
+    --background: 0 0% 100%;       /* #FFFFFF crisp white */
+    --foreground: 0 0% 9%;         /* #171717 ink         */
 
-    --card: 47 47% 96%;
-    --card-foreground: 0 0% 10%;
-    --popover: 47 47% 96%;
-    --popover-foreground: 0 0% 10%;
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 9%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 9%;
 
-    --primary: 0 0% 10%;
-    --primary-foreground: 47 47% 96%;
+    --primary: 0 0% 9%;
+    --primary-foreground: 0 0% 100%;
 
-    --secondary: 45 25% 93%;       /* banded section paper */
-    --secondary-foreground: 0 0% 10%;
-    --muted: 45 25% 93%;
-    --muted-foreground: 0 0% 45%;  /* #737373 */
+    /* The band. Sections alternate white / band down the page — see
+       SectionShell. Deliberately near-neutral with a trace of cool: a warm
+       band on white reads as a stain, a cool one reads as a plate. */
+    --secondary: 220 14% 97%;      /* #F6F7F9 */
+    --secondary-foreground: 0 0% 9%;
+    --muted: 220 14% 97%;
+    --muted-foreground: 0 0% 42%;  /* #6B6B6B — 5.4:1 on white */
 
     --accent: 340 75% 52%;         /* #E02966 rose — CTAs and marks only.
                                       340° deliberately, not the 292° magenta
                                       of the source geometry: hue separation is
                                       one of the three axes keeping this from
                                       reading as a recolour of that site. */
-    --accent-foreground: 47 47% 96%;
+    --accent-foreground: 0 0% 100%;
 
     --positive: 156 78% 27%;       /* #0F7B4F — ledger deltas only */
     --negative: 4 64% 46%;         /* #C2352A — ledger deltas only */
 
     --destructive: 4 64% 46%;
-    --destructive-foreground: 47 47% 96%;
+    --destructive-foreground: 0 0% 100%;
 
-    --border: 0 0% 85%;            /* #D9D9D9 hairline */
-    --input: 0 0% 85%;
+    /* Hairlines go lighter on white than they were on paper — #D9D9D9 against
+       #FFF reads as a drawn line rather than a rule. */
+    --border: 220 13% 89%;         /* #E1E4E8 */
+    --input: 220 13% 89%;
     --ring: 340 75% 52%;
 
     /* Hard corners. This is load-bearing — do not soften. */

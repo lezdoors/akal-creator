@@ -88,16 +88,16 @@ const FitColumn: React.FC<{
 );
 
 export interface WhoItsForProps {
-  /** Gutter index. The page owner sets the running order. Default '05'. */
+  /** Gutter index. The page owner sets the running order — see Index.tsx. */
   index?: string;
-  /** Gutter label. Default 'FIT'. */
+  /** Gutter label. */
   label?: string;
   /** Anchor id. */
   id?: string;
 }
 
 /**
- * Section 05 — FIT.
+ * FIT — where this works, and where it does not.
  *
  * Two hairline-separated columns: where this works, and where it does not.
  * There are no logos, no case studies and no testimonials on this site because
@@ -108,7 +108,7 @@ export interface WhoItsForProps {
  * `prefers-reduced-motion: reduce` — Reveal renders plainly visible there.
  */
 export const WhoItsFor: React.FC<WhoItsForProps> = ({
-  index = '05',
+  index = '08',
   label = 'FIT',
   id = 'fit',
 }) => (

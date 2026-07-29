@@ -109,6 +109,19 @@ export const AttributionLedger: React.FC = () => {
 
   return (
     <div className="border border-border bg-background">
+      {/* Provenance, at the HEAD of the frame.
+          There is an identical label on the totals bar at the foot, and that one
+          alone was not enough: the ledger is taller than every viewport we
+          support, so at 1440x900 fifty-six illustrative figures render on screen
+          at rest with the foot label 136px below the fold, and at 768 the gap is
+          400px. A disclaimer that cannot be on screen at the same time as the
+          numbers it qualifies is not doing its job — and this label is the only
+          thing making an illustrative ledger lawful to show (DMCC).
+          A caption at the head is also just where a document puts one. */}
+      <p className="row-label !text-foreground px-5 md:px-6 py-2.5 border-b border-border">
+        Example campaign · illustrative figures · not client results
+      </p>
+
       {/* Controls */}
       <div className="flex flex-wrap gap-8 p-5 md:p-6 border-b border-border">
         <Control

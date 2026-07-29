@@ -55,29 +55,93 @@ const ROWS: readonly ServiceRow[] = [
 /** Rows stagger in at the house 60ms interval. */
 const STAGGER_MS = 60;
 
-export const Services: React.FC = () => (
+/**
+ * Mirrors a FeaturePanel so the art holds the LEFT column instead of the right.
+ *
+ * FeaturePanel has no `side` prop and lives in another agent's file, so the
+ * mirror is done from the call site: `flex-row-reverse` swaps the two columns,
+ * and the second class re-points the panel's inner feather. That feather is
+ * `bg-gradient-to-r` — it dissolves the art's LEFT edge into the copy. Once the
+ * columns swap, the inner edge is the art's right edge, so the gradient has to
+ * run the other way or the panel feathers at its outer border and leaves a dead
+ * band against the frame.
+ *
+ * This is deliberately the only DOM-coupled class on the page. The proper fix is
+ * a `side` prop on FeaturePanel; until whoever owns that file adds one, the
+ * failure mode here is soft (feather on the wrong edge, never a crash).
+ */
+const ART_LEFT = 'flex-row-reverse [&>div:last-child>div]:bg-gradient-to-l';
+
+export interface ServicesProps {
+  /** Gutter index. The page owner sets the running order — see Index.tsx. */
+  index?: string;
+  /** Gutter label. */
+  label?: string;
+  /** Anchor id. */
+  id?: string;
+}
+
+export const Services: React.FC<ServicesProps> = ({
+  index = '01',
+  label = 'SOURCING',
+  id = 'services',
+}) => (
   <SectionShell
-    id="services"
-    index="01"
-    label="SOURCING"
+    id={id}
+    index={index}
+    label={label}
     title="What we run"
     lede="One managed loop: we find the creators, agree the price, run the paperwork and the payments, and track what every placement returns."
   >
-      {/* Art holds its own column at full strength — see FeaturePanel. The
-          five rows below carry the detail; this carries the weight. */}
-      {/* No invented figure in the stat slot. An earlier draft read "14 signals
-          per creator" — a number with no source, which is the exact class of
-          claim this site cannot carry. The differentiator is true and needs no
-          digit. */}
-      <FeaturePanel
-        index="01"
-        title="We find the audience, not the follower count"
-        body="Subscriber counts are vanity. We rank creators on median views across recent posts, then model what a placement is worth on a CPM basis and negotiate against that number."
-        stat={{ value: 'Median', label: 'views — not subscribers. the number we rank on' }}
-        image="/images/hero.webp"
-        flip
-        className="mb-12"
-      />
+      {/* A STACK of panels, not one panel plus a list — the reference's
+          features-section proportion. Art holds its own full-strength column in
+          every one (see FeaturePanel), and the side alternates right / left /
+          right so the eye crosses the page three times on the way down.
+
+          Where we diverge from the reference, and why: its panel stack is
+          load-bearing on figures — a headline metric per card, plus a canvas
+          sparkline reading as live telemetry. We have no clients, so every one
+          of those slots would have to be invented. The slot is therefore
+          re-cut: each stat carries a MODEL FACT or a PROCESS COMMITMENT — the
+          thing we rank on, the number of invoices, the link-to-placement ratio.
+          All three are true today with zero campaigns run, and none of them
+          moves when we sign a client.
+
+          (The earlier bug in this slot read "14 signals per creator" — a figure
+          with no source. That is the exact class of claim this site cannot
+          carry, in any slot, at any size.) */}
+      <div className="grid grid-cols-1 gap-6 md:gap-8 mb-12">
+        <FeaturePanel
+          index="01"
+          title="We find the audience, not the follower count"
+          body="Subscriber counts are vanity. We rank creators on median views across recent posts, then model what a placement is worth on a CPM basis and negotiate against that number."
+          stat={{ value: 'Median', label: 'views — not subscribers. the number we rank on' }}
+          image="/images/hero.webp"
+          flip
+          className="min-w-0"
+        />
+
+        {/* Art left. Flipped so the frame's motion travels away from the copy
+            rather than into it. */}
+        <FeaturePanel
+          index="02"
+          title="We run the paperwork and we pay the creators"
+          body="Agreements, deliverables, revision rounds and usage rights are ours to chase. Creators are paid in their own currency, on our paper, so nothing routes through your finance team."
+          stat={{ value: '1', label: 'invoice — we pay every creator ourselves' }}
+          image="/images/field.webp"
+          flip
+          className={`min-w-0 ${ART_LEFT}`}
+        />
+
+        <FeaturePanel
+          index="03"
+          title="Every placement carries a tracked link"
+          body="One link per placement, issued before the video goes live. Clicks and signups land against the creator who earned them, in a dashboard you can open any time — which is what makes a creator campaign report the way a paid channel does."
+          stat={{ value: '1:1', label: 'tracked link per placement, issued before publish' }}
+          image="/images/impact.webp"
+          className="min-w-0"
+        />
+      </div>
 
     {/* The triad. Three cells, hairline-divided, left-aligned. */}
     <Reveal className="border-y border-border grid grid-cols-1 sm:grid-cols-3 divide-y divide-border sm:divide-y-0 sm:divide-x">

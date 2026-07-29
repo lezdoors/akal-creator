@@ -231,8 +231,8 @@
    element so one keyframe serves lines of any length. */
 @keyframes draw-line {
   0%   { stroke-dashoffset: 1000; opacity: 0; }
-  15%  { opacity: 1; }
-  70%  { stroke-dashoffset: 0; opacity: 1; }
+  15%  { opacity: var(--line-alpha, 0.3); }
+  70%  { stroke-dashoffset: 0; opacity: var(--line-alpha, 0.3); }
   100% { stroke-dashoffset: 0; opacity: 0; }
 }
 
@@ -256,9 +256,15 @@
   transform-origin: left;
 }
 
+/* The lattice draws BEHIND copy, so it is capped well below full accent. At
+   opacity 1 (where this shipped) a 1.2px accent line crosses body text and the
+   text loses; it also spends the three-marks-per-viewport accent budget on pure
+   decoration, which rule 6 does not allow. --line-alpha is the cap, exposed so
+   a caller can dim it further; it is never raised. */
 .connector-line {
+  --line-alpha: 0.3;
   stroke: hsl(var(--accent));
-  stroke-width: 1.2;
+  stroke-width: 1;
   stroke-dasharray: 1000;
   animation: draw-line 7s ease-out infinite;
 }
@@ -290,5 +296,11 @@
   .animate-progress { transform: scaleX(1); animation: none; }
   .mote { animation: none; }
   .animate-char-in { opacity: 1; transform: none; animation: none; }
-  .connector-line   { stroke-dashoffset: 0; opacity: 0.5; animation: none; }
+  /* The booking sheet appears in place instead of flying in from the edge —
+     a full-height panel travelling the viewport width is the one motion here
+     with a real vestibular cost. */
+  .animate-slide-in-right { transform: none; animation: none; }
+  /* Static lattice, no draw. 0.18 matches the inline fallback ConnectorField
+     applies when it detects reduced motion in JS, so the two paths agree. */
+  .connector-line   { stroke-dashoffset: 0; opacity: 0.18; animation: none; }
 }

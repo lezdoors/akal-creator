@@ -5,9 +5,53 @@ interface FooterProps {
   onBookCall?: () => void;
 }
 
-/** Copy lives inline. i18n is retired — do not reintroduce locale keys. */
+/**
+ * Copy lives inline. i18n is retired — do not reintroduce locale keys.
+ *
+ * The banner is the reference footer's device (a full-bleed panoramic frame
+ * above the link columns) and it is the only placement on the page where a
+ * 2.34:1 frame is used at its native ratio rather than cropped into a column.
+ *
+ * Composition rules, same as every other frame here: FULL STRENGTH, hard top
+ * edge against the footer's own rule, and a gradient spent only on the bottom
+ * third where the image has to hand off to the footer ground. Nothing is laid
+ * over it — no copy, no scrim across the middle. A banner at reduced opacity
+ * with type on top is the watermark failure, and it is not what the reference
+ * does either: its `from-transparent via-transparent to-black` fades the last
+ * stretch and leaves the frame alone.
+ */
 export const Footer: React.FC<FooterProps> = ({ onBookCall }) => (
   <footer className="border-t border-border bg-background">
+    {/* Decorative: the footer reads complete without it, which is why it is
+        aria-hidden and why the height drops on small screens rather than the
+        image being stacked or cropped to a letterbox strip. */}
+    <div aria-hidden className="relative w-full h-[180px] sm:h-[240px] md:h-[320px] overflow-hidden">
+      <img
+        src="/images/swirl.webp"
+        alt=""
+        loading="lazy"
+        decoding="async"
+        /* object-bottom: the seed head sits low-left in the frame and the lit
+           trail arcs up and right. Anchoring to the bottom keeps the head in
+           shot at every height instead of cropping it away as the band
+           shortens on mobile. */
+        className="absolute inset-0 h-full w-full object-cover object-bottom"
+      />
+      {/* Bottom hand-off only. */}
+      <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-b from-transparent to-background" />
+      {/* The reference lays a hairline lattice over its hero frame; used here
+          it puts the one full-bleed image on the same ruled grammar as the
+          document above it. Effective alpha is 0.20 × 0.14. */}
+      <div className="absolute inset-0 opacity-[0.14]">
+        {[25, 50, 75].map((t) => (
+          <span key={`h${t}`} className="absolute inset-x-0 h-px bg-foreground/20" style={{ top: `${t}%` }} />
+        ))}
+        {[12.5, 25, 37.5, 50, 62.5, 75, 87.5].map((l) => (
+          <span key={`v${l}`} className="absolute inset-y-0 w-px bg-foreground/20" style={{ left: `${l}%` }} />
+        ))}
+      </div>
+    </div>
+
     <div className="max-w-7xl mx-auto px-6 md:px-10 py-12 md:py-16">
       <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-10 min-w-0">
         <div className="min-w-0">

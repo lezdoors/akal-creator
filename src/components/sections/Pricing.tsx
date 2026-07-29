@@ -64,27 +64,27 @@ const ListHead: React.FC<{ title: string; count: number }> = ({ title, count }) 
 );
 
 export interface PricingProps {
-  /** Gutter index. Page order owner sets this. Default '04'. */
+  /** Gutter index. Page order owner sets this — see Index.tsx. */
   index?: string;
-  /** Gutter label. Default 'PRICING'. */
+  /** Gutter label. */
   label?: string;
-  /** Anchor id. Default 'pricing'. */
+  /** Anchor id. */
   id?: string;
   /** Opens the brief sheet. Falls back to an in-page anchor when absent. */
   onStartCampaign?: () => void;
 }
 
 /**
- * Section 04 — the price list.
+ * PRICING — the price list.
  *
  * Motion is CSS + IntersectionObserver only: `Reveal` staggers the rows, and
  * the worked-example figures count up once via `useCountUp`, which jumps
  * straight to its target under `prefers-reduced-motion: reduce`.
  *
- * The rose accent appears once here — on the CTA. Nothing else is accented.
+ * The accent appears once here — on the CTA. Nothing else is accented.
  */
 export const Pricing: React.FC<PricingProps> = ({
-  index = '04',
+  index = '07',
   label = 'PRICING',
   id = 'pricing',
   onStartCampaign,

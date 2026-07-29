@@ -1,6 +1,7 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { AttributionLedger } from '@/components/AttributionLedger';
+import { Motes } from '@/components/Motes';
 
 interface HeroProps {
   onBookCall: () => void;
@@ -9,8 +10,29 @@ interface HeroProps {
 /** Copy lives inline. i18n is retired — do not reintroduce locale keys. */
 export const Hero: React.FC<HeroProps> = ({ onBookCall }) => {
   return (
-    <section className="relative px-6 md:px-10 pt-32 pb-16 md:pt-40 md:pb-24">
-      <div className="max-w-7xl mx-auto w-full">
+    <section className="relative overflow-hidden px-6 md:px-10 pt-32 pb-16 md:pt-40 md:pb-24">
+      {/* The reference hero is entirely atmosphere: a full-bleed frame with a
+          hairline lattice ruled over it. We take the lattice and leave the
+          frame — the right column here is the AttributionLedger, the signature
+          of the whole site, and an image behind an opaque data table would be
+          occluded to nothing. So the ground gets structure rather than art:
+          the same ruled grammar as the document below, at an alpha where it
+          reads as a plate and never competes with the headline.
+          (Logged as an image gap: a hero frame would need a composition that
+          gives it a real column, which this two-column split has no room for.) */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.5]">
+        {[12.5, 25, 37.5, 50, 62.5, 75, 87.5].map((t) => (
+          <span key={`h${t}`} className="absolute inset-x-0 h-px bg-border" style={{ top: `${t}%` }} />
+        ))}
+        {[8.33, 16.66, 25, 33.33, 41.66, 50, 58.33, 66.66, 75, 83.33, 91.66].map((l) => (
+          <span key={`v${l}`} className="absolute inset-y-0 w-px bg-border" style={{ left: `${l}%` }} />
+        ))}
+      </div>
+      {/* Drifting light, as on every other dark panel. 26 across a full
+          viewport is the same density FeaturePanel runs at panel scale. */}
+      <Motes count={26} seed={11} />
+
+      <div className="relative max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">
           {/* Left column — the claim */}
           <div className="lg:col-span-5 min-w-0">

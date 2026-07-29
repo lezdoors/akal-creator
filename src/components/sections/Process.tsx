@@ -4,12 +4,22 @@ import { useInView } from '@/hooks/useInView';
 import { cn } from '@/lib/utils';
 
 /**
- * 02 / PROCESS — "How it works".
+ * PROCESS — "How it works". The gutter index arrives as a prop; see Index.tsx.
  *
  * Three numbered cards that advance on a dwell timer. Motion recipe ported from
- * the compute-11 reference: the active card lifts its border, puts the numeral
- * in accent, sweeps a rule across its head for the dwell, and carries a solid
- * accent bar on its bottom edge. Everything else sits muted.
+ * the compute-11 reference: the active card lifts its numeral, sweeps a rule
+ * across its head for the dwell, and carries a solid bar on its bottom edge.
+ * Everything else sits muted.
+ *
+ * THE ACTIVE STATE IS CARRIED IN INK, NOT ACCENT — same call Trust and Scale
+ * made. Register rule 6 gives the accent to CTAs and live-data marks and caps
+ * it at three per viewport; an auto-advancing step indicator is neither. It
+ * spent two of those three (numeral + bottom bar), and because this section
+ * ends where TRACKING begins, a 1440x900 viewport at the seam held four marks:
+ * these two plus Tracking's "Open the link" CTA and its live dot. Value
+ * contrast reads at least as strongly here — foreground on a near-black card
+ * is a harder step than rose — and it hands the whole accent budget at that
+ * seam to the two marks that have actually earned it.
  *
  * Three deliberate departures from that reference:
  *  - The timer runs only while the section is on screen. Theirs cycles forever
@@ -50,7 +60,20 @@ const STEPS: readonly Step[] = [
   },
 ];
 
-export const Process: React.FC = () => {
+export interface ProcessProps {
+  /** Gutter index. The page owner sets the running order — see Index.tsx. */
+  index?: string;
+  /** Gutter label. */
+  label?: string;
+  /** Anchor id. */
+  id?: string;
+}
+
+export const Process: React.FC<ProcessProps> = ({
+  index = '02',
+  label = 'PROCESS',
+  id = 'how-it-works',
+}) => {
   const [active, setActive] = useState(0);
   const [paused, setPaused] = useState(false);
   const [ref, inView] = useInView<HTMLDivElement>({ once: false, threshold: 0.25 });
@@ -77,9 +100,9 @@ export const Process: React.FC = () => {
 
   return (
     <SectionShell
-      id="how-it-works"
-      index="02"
-      label="PROCESS"
+      id={id}
+      index={index}
+      label={label}
       title="Three steps. You approve one of them."
       motes={30}
       lede="The other two are ours. You are never asked to chase a creator, chase an invoice, or take our word for a number."
@@ -122,7 +145,7 @@ export const Process: React.FC = () => {
                 <span
                   className={cn(
                     'num text-3xl leading-none transition-colors duration-300',
-                    on ? 'text-accent' : 'text-muted-foreground/40',
+                    on ? 'text-foreground' : 'text-muted-foreground/40',
                   )}
                 >
                   {step.n}
@@ -132,7 +155,7 @@ export const Process: React.FC = () => {
                     // keyed on `active` so the sweep restarts each time
                     <span
                       key={active}
-                      className="block h-full bg-accent/60 animate-progress"
+                      className="block h-full bg-foreground/60 animate-progress"
                       style={{ ['--dwell' as string]: `${DWELL_MS}ms` }}
                     />
                   )}
@@ -156,7 +179,7 @@ export const Process: React.FC = () => {
               <span
                 aria-hidden
                 className={cn(
-                  'absolute bottom-0 left-0 right-0 h-[3px] bg-accent origin-left',
+                  'absolute bottom-0 left-0 right-0 h-[3px] bg-foreground origin-left',
                   'transition-transform duration-500',
                   on ? 'scale-x-100' : 'scale-x-0',
                 )}

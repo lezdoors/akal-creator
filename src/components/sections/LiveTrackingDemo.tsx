@@ -3,6 +3,7 @@ import { cn } from '@/lib/utils';
 import { SectionShell } from '@/components/SectionShell';
 import { Reveal } from '@/components/Reveal';
 import { useInView } from '@/hooks/useInView';
+import { useCountUp } from '@/hooks/useCountUp';
 
 /* ---------------------------------------------------------------------------
    Contract — GET /api/demo-clicks -> { clicks: [{ id, ts, country, referrer,
@@ -26,6 +27,10 @@ export interface DemoClicksResponse {
 
 const POLL_MS = 2000;
 const MAX_ROWS = 12;
+/** Ledger rows stagger at 60ms (REGISTER §Motion). The chain uses the same beat. */
+const CHAIN_STAGGER_MS = 60;
+/** Table rows land tighter than the chain — one wave, not twelve events. */
+const ROW_STAGGER_MS = 40;
 
 /** Narrow an unknown payload to the contract. Anything off-shape is dropped. */
 function parseClicks(payload: unknown): DemoClick[] {
@@ -98,9 +103,9 @@ const CHAIN: ReadonlyArray<{ step: string; gloss: string }> = [
 ];
 
 export interface LiveTrackingDemoProps {
-  /** Gutter index. The page owner sets the running order. Default '03'. */
+  /** Gutter index. The page owner sets the running order — see Index.tsx. */
   index?: string;
-  /** Gutter label. Default 'TRACKING'. */
+  /** Gutter label. */
   label?: string;
   /** Anchor id. */
   id?: string;
@@ -111,7 +116,7 @@ export interface LiveTrackingDemoProps {
 }
 
 /**
- * Section 03 — the tracking demonstration.
+ * TRACKING — the demonstration.
  *
  * Left: the redirect chain as a mono sequence. Right: a real tracked link the
  * visitor can copy or open, and an append-only table that polls the clicks
@@ -136,6 +141,9 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
   const [origin, setOrigin] = useState('');
   const [copied, setCopied] = useState(false);
   const copyTimer = useRef<ReturnType<typeof setTimeout>>();
+  /* Increments once per COMPLETED poll attempt. It is the only thing driving
+     the live mark below — see the note on the header strip. */
+  const [pollTick, setPollTick] = useState(0);
 
   useEffect(() => {
     if (typeof window !== 'undefined') setOrigin(window.location.origin);
@@ -166,6 +174,12 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
         if (!cancelled) setClicks(parsed);
       } catch {
         /* offline, 404, aborted, or not JSON yet — keep the empty state. */
+      } finally {
+        /* Ticks on success AND on failure, because what the mark claims is
+           "polling every 2s" — the ATTEMPT is the real event. It does not tick
+           on the hidden-tab early return above, so the mark correctly goes
+           still whenever we have actually stopped polling. */
+        if (!cancelled) setPollTick((t) => t + 1);
       }
     };
 
@@ -200,6 +214,18 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
     [clicks],
   );
 
+  /* The mono counter treatment, taken from the reference's metrics count-up:
+     the figure travels to its new value and the digits resolve out of a blur
+     as it settles. Structurally different in what it counts — the reference
+     drove its counter next to a canvas sparkline of trigonometric fake
+     telemetry under a LIVE badge, which is the fabricated-metric class we are
+     forbidden. This counts the length of `rows` and nothing else, so with a
+     dead endpoint it honestly reads 00. Under reduced motion useCountUp jumps
+     straight to target, so the blur never gets a frame. */
+  const counted = useCountUp(rows.length, 500);
+  const countLabel = String(Math.round(counted)).padStart(2, '0');
+  const settling = Math.abs(counted - rows.length) > 0.01;
+
   return (
     <SectionShell
       id={id}
@@ -217,37 +243,68 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
             The chain
           </Reveal>
 
+          {/* The reference drove its equivalent step list off a 6s auto-advance
+              that overwrote any manual choice and kept stepping in a hidden
+              tab. Deliberately not ported: this is a five-step explanation, it
+              wants to be read at the reader's pace, and a page selling
+              operational control should not fight the person operating it.
+              Every state below is hover-driven and purely emphatic — no step
+              hides information that another step reveals. */}
           <ol className="mt-6 border-t border-border min-w-0">
             {CHAIN.map((link, i) => (
               <Reveal
                 as="li"
                 key={link.step}
-                delay={i * 60}
-                className="border-b border-border py-4 min-w-0"
+                delay={i * CHAIN_STAGGER_MS}
+                className="group relative border-b border-border py-4 min-w-0"
               >
                 <div className="flex items-baseline gap-3 min-w-0">
-                  <span className="num text-[11px] text-muted-foreground shrink-0 w-[2.4rem]">
+                  <span
+                    className="num text-[11px] text-muted-foreground shrink-0 w-[2.4rem]
+                               transition-colors duration-300 group-hover:text-foreground"
+                  >
                     {i === 0 ? '  ' : '->'} {String(i + 1).padStart(2, '0')}
                   </span>
                   <span className="num text-[13px] md:text-sm text-foreground min-w-0 break-words">
                     {link.step}
                   </span>
                 </div>
-                <p className="mt-2 pl-[3.15rem] text-[13.5px] leading-relaxed text-muted-foreground max-w-[46ch]">
+                <p
+                  className="mt-2 pl-[3.15rem] text-[13.5px] leading-relaxed text-muted-foreground max-w-[46ch]
+                             transition-colors duration-300 group-hover:text-foreground"
+                >
                   {link.gloss}
                 </p>
+                {/* Active rule wiping in from the left. scaleX + origin-left so
+                    it is compositor-only — the reference implemented this same
+                    idea twice, once with transform and once by animating
+                    `width`; this is the transform one. 500ms against the copy's
+                    300ms, so the content commits before the frame does.
+                    Reveal sets animationDelay and never transitionDelay, so the
+                    entrance stagger cannot leak into these hover transitions and
+                    make the lower rows feel dead to the cursor — the bug the
+                    reference shipped on three separate grids. */}
+                <span
+                  aria-hidden="true"
+                  className="pointer-events-none absolute -bottom-px left-0 right-0 h-px origin-left scale-x-0
+                             bg-foreground transition-transform duration-500 group-hover:scale-x-100"
+                />
               </Reveal>
             ))}
           </ol>
 
-          <p className="mt-6 text-[13.5px] leading-relaxed text-muted-foreground max-w-[46ch]">
+          <Reveal
+            as="p"
+            delay={CHAIN.length * CHAIN_STAGGER_MS + 80}
+            className="mt-6 text-[13.5px] leading-relaxed text-muted-foreground max-w-[46ch]"
+          >
             {/* Accuracy: api/go.js DOES set one first-party cookie (akal_ref),
                 and PrivacyPage discloses it. Claiming "no cookies" here would
                 contradict both our own code and our own privacy notice. */}
             No third-party cookies, no fingerprinting, no cross-site pixel. One
             first-party cookie, a click id in the URL, and a postback from your
             own backend — the same mechanism your affiliate stack already speaks.
-          </p>
+          </Reveal>
         </div>
 
         {/* ---------------------------------------------------------------
@@ -270,12 +327,21 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
                   href={href}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="num inline-flex items-center bg-accent px-4 py-2.5 text-[12px] uppercase
+                  className="num group inline-flex items-center bg-accent px-4 py-2.5 text-[12px] uppercase
                              tracking-[0.12em] text-accent-foreground transition-opacity hover:opacity-90
                              focus-visible:outline focus-visible:outline-1 focus-visible:outline-offset-2
                              focus-visible:outline-accent"
                 >
                   Open the link
+                  {/* The reference's arrow nudge, at 300ms rather than the
+                      inherited 150ms default that made theirs snap. */}
+                  <span
+                    aria-hidden="true"
+                    className="ml-2 inline-block transition-transform duration-300
+                               group-hover:translate-x-1 group-focus-visible:translate-x-1"
+                  >
+                    &rarr;
+                  </span>
                 </a>
 
                 <button
@@ -296,8 +362,23 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
               </div>
             </div>
 
-            {/* Table header strip */}
-            <div className="flex items-center justify-between gap-4 px-5 md:px-6 py-3 border-b border-border min-w-0">
+            {/* ---------------------------------------------------------------
+                Table header strip — the live mark.
+
+                The reference paired a free-running `animate-pulse` dot with a
+                wall clock and a canvas sparkline. Two of those three are lies
+                by construction: a dot that pulses on a 2s CSS loop keeps
+                beating with the endpoint dead, and the sparkline plotted
+                sin*cos noise dressed as telemetry. So this is the structurally
+                different version — the mark is driven by `pollTick`, which only
+                advances when a poll actually completes. Remounting on the key
+                replays the CSS entrance from frame 0 with no class toggle and
+                no reflow (the cleanest trick in the reference). Consequences,
+                all of them wanted: endpoint down, tab hidden or section
+                scrolled away and the sweep stops, because we have genuinely
+                stopped polling. Nothing here animates on a timer of its own.
+            --------------------------------------------------------------- */}
+            <div className="relative flex items-center justify-between gap-4 px-5 md:px-6 py-3 border-b border-border min-w-0">
               <div className="row-label flex items-center gap-2 min-w-0">
                 <span
                   aria-hidden="true"
@@ -310,9 +391,33 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
                   Incoming clicks · polling every 2s
                 </span>
               </div>
-              <span className="num text-[11px] text-muted-foreground shrink-0">
-                {String(rows.length).padStart(2, '0')}
+
+              {/* Mono counter: travels to the new value, digits resolving out
+                  of a blur as it settles. Commas are never blurred in the
+                  reference because that reads as a render fault; we are two
+                  digits wide and have none. */}
+              <span
+                className={cn(
+                  'num text-[11px] shrink-0 transition-[filter,color] duration-150',
+                  settling ? 'blur-[0.6px] text-foreground' : 'text-muted-foreground',
+                )}
+              >
+                {countLabel}
               </span>
+
+              {/* Cadence sweep along the strip's own hairline. scaleX from
+                  origin-left, so it composites. `.animate-progress` is the
+                  house class and the reduced-motion block already pins it to
+                  scaleX(1) — a static accent rule, which still reads correctly
+                  as "this strip is the live one". */}
+              {inView && (
+                <span
+                  key={pollTick}
+                  aria-hidden="true"
+                  className="animate-progress pointer-events-none absolute -bottom-px left-0 right-0 h-px bg-accent"
+                  style={{ ['--dwell' as string]: `${POLL_MS}ms` } as React.CSSProperties}
+                />
+              )}
             </div>
 
             {/* Append-only table */}
@@ -337,8 +442,21 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
                       </td>
                     </tr>
                   ) : (
-                    rows.map((click) => (
-                      <tr key={String(click.id)} className="border-b border-border animate-appear">
+                    /* Keyed on the click id, so a poll that returns the same
+                       rows does not remount them — only genuinely new rows
+                       animate, and the stagger below therefore only ever runs
+                       on the first populated paint. A row arriving later lands
+                       at index 0 with delay 0, which is what an append-only
+                       ledger should feel like: immediate, not queued.
+                       animationDelay (not transitionDelay) so it cannot leak
+                       into the row's hover transition. */
+                    rows.map((click, i) => (
+                      <tr
+                        key={String(click.id)}
+                        style={{ animationDelay: `${i * ROW_STAGGER_MS}ms` }}
+                        className="border-b border-border animate-appear transition-colors duration-200
+                                   hover:bg-secondary/60"
+                      >
                         <td className="num py-3 pl-5 md:pl-6 pr-3 text-foreground whitespace-nowrap">
                           {formatTime(click.ts)}
                         </td>

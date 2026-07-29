@@ -244,11 +244,24 @@ const ENTRIES: FaqEntry[] = [
 
 /* ------------------------------------------------------------------------- */
 
-export const FAQ: React.FC = () => (
+export interface FAQProps {
+  /** Gutter index. The page owner sets the running order — see Index.tsx. */
+  index?: string;
+  /** Gutter label. */
+  label?: string;
+  /** Anchor id. */
+  id?: string;
+}
+
+export const FAQ: React.FC<FAQProps> = ({
+  index = '09',
+  label = 'QUESTIONS',
+  id = 'faq',
+}) => (
   <SectionShell
-    id="faq"
-    index="07"
-    label="QUESTIONS"
+    id={id}
+    index={index}
+    label={label}
     title="The questions worth asking before you sign."
     lede="Answered plainly, including the parts that make us look smaller than we would like."
   >

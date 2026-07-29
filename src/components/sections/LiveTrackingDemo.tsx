@@ -242,7 +242,7 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
           on-palette field frame holds the slot until the HF 3:1 band lands. */}
       <div aria-hidden className="relative w-full overflow-hidden mb-0 border border-border border-b-0">
         <img
-          src="/images/field.webp"
+          src="/images/mo-crossing.webp"
           alt=""
           loading="lazy"
           decoding="async"

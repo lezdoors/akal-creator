@@ -241,7 +241,7 @@ export const Scale: React.FC<ScaleProps> = ({
       title="One roster, priced per surface"
       body="The same creator is worth a different number on a twenty-minute review than in a newsletter slot, and we price each surface on its own median views. The brief, the paperwork and the payment run once."
       stat={{ value: 'One invoice', label: 'you pay us; we pay every creator, in their currency' }}
-      image="/images/ref-world.webp"
+      image="/images/mo-routing.webp"
       className="mt-12 md:mt-16"
     />
   </SectionShell>

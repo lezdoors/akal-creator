@@ -112,7 +112,7 @@ export const Process: React.FC<ProcessProps> = ({
           ground; dropped below lg where it would letterbox. */}
       <div aria-hidden className="hidden lg:block relative h-[420px] -mb-px overflow-hidden">
         <img
-          src="/images/ref-tree.webp"
+          src="/images/mo-select.webp"
           alt=""
           loading="lazy"
           decoding="async"

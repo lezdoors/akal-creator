@@ -78,7 +78,7 @@ const Word: React.FC<{
 const ArtColumn: React.FC = () => (
   <div className="hidden lg:block relative w-[42%] shrink-0 overflow-hidden border-l border-border">
     <img
-      src="/images/field.webp"
+      src="/images/mo-corridor.webp"
       alt=""
       aria-hidden
       loading="lazy"

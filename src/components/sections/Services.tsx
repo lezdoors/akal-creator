@@ -116,7 +116,7 @@ export const Services: React.FC<ServicesProps> = ({
           title="We find the audience, not the follower count"
           body="Subscriber counts are vanity. We rank creators on median views across recent posts, then model what a placement is worth on a CPM basis and negotiate against that number."
           stat={{ value: 'Median', label: 'views — not subscribers. the number we rank on' }}
-          image="/images/hero.webp"
+          image="/images/mo-array.webp"
           flip
           className="min-w-0"
         />
@@ -128,7 +128,7 @@ export const Services: React.FC<ServicesProps> = ({
           title="We run the paperwork and we pay the creators"
           body="Agreements, deliverables, revision rounds and usage rights are ours to chase. Creators are paid in their own currency, on our paper, so nothing routes through your finance team."
           stat={{ value: '1', label: 'invoice — we pay every creator ourselves' }}
-          image="/images/field.webp"
+          image="/images/mo-reticle.webp"
           flip
           className={`min-w-0 ${ART_LEFT}`}
         />
@@ -138,7 +138,7 @@ export const Services: React.FC<ServicesProps> = ({
           title="Every placement carries a tracked link"
           body="One link per placement, issued before the video goes live. Clicks and signups land against the creator who earned them, in a dashboard you can open any time — which is what makes a creator campaign report the way a paid channel does."
           stat={{ value: '1:1', label: 'tracked link per placement, issued before publish' }}
-          image="/images/impact.webp"
+          image="/images/mo-crossing2.webp"
           className="min-w-0"
         />
       </div>

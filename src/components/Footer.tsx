@@ -27,14 +27,14 @@ export const Footer: React.FC<FooterProps> = ({ onBookCall }) => (
         image being stacked or cropped to a letterbox strip. */}
     <div aria-hidden className="relative w-full h-[180px] sm:h-[240px] md:h-[320px] overflow-hidden">
       <img
-        src="/images/swirl.webp"
+        src="/images/mo-footer.webp"
         alt=""
         loading="lazy"
         decoding="async"
-        /* object-bottom: the seed head sits low-left in the frame and the lit
-           trail arcs up and right. Anchoring to the bottom keeps the head in
-           shot at every height instead of cropping it away as the band
-           shortens on mobile. */
+        /* The ledger at rest — rows of etched glass slabs receding into black,
+           the story's last beat. object-bottom keeps the near rows (where the
+           etched lines read) in shot as the band shortens on mobile; the far
+           rows are the ones that can be lost. */
         className="absolute inset-0 h-full w-full object-cover object-bottom"
       />
       {/* Bottom hand-off only. */}

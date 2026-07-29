@@ -1,6 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <!-- Type only. Hard corners, ink on paper — same register as the site. -->
-  <rect width="64" height="64" fill="#1A1A1A"/>
-  <text x="32" y="45" fill="#FAF8F1" font-family="Helvetica Neue, Helvetica, Arial, sans-serif"
-        font-size="42" font-weight="700" letter-spacing="0" text-anchor="middle">A</text>
-</svg>

@@ -26,6 +26,7 @@ site for its geometry only — no other brand appears anywhere.
 | Grammar | **The ledger** — the page is a document, not a deck |
 | Signature | **Live attribution ledger** in the hero (`src/components/AttributionLedger.tsx`) |
 | Imagery | **None.** Zero photography, stock, illustration, 3D, gradients, mockups |
+| Mark | The AKAL Didone wordmark, `public/akal-wordmark.svg` — vector, `currentColor` |
 
 ## Non-negotiable rules
 
@@ -51,6 +52,24 @@ radial-gradient glows · gradient-clip text · centred heroes · canvas
 frame-scrub · photographic heroes · `rounded-full` · `rounded-2xl` · bento
 grids · animated borders · aurora backgrounds · logo marquees · drop shadows ·
 floaty container cards · AI-generated video or imagery of any kind.
+
+## The brand mark — the one carve-out
+
+The no-imagery rule is about **decoration**. AKAL's own mark is identity, and
+typing "AKAL" in Satoshi is an approximation of the brand rather than the brand.
+
+- `public/akal-wordmark.svg` — the Didone wordmark with the red crossbars,
+  vectorised from the brand asset. **Vector, 2.4KB, letterforms take
+  `currentColor`.** The site still ships zero raster images.
+- Favicons are raster by necessity (`favicon-16/32/48/180/512`, `favicon.ico`).
+  The small sizes carry an **optically thickened crossbar** — at 32px the
+  source hairline vanishes entirely, and the bar is what the mark is
+  recognised by.
+- Note: the mark's red is `#E00000`; the site accent is rose `#E02966`. The
+  mark is not recoloured to match — a brand mark is fixed. They never sit
+  adjacent at size, so the difference does not read as inconsistency.
+- This carve-out covers the mark and the favicons **only**. It is not a licence
+  to introduce photography, illustration, or any other image.
 
 ## Fabricated proof — the hard rule
 

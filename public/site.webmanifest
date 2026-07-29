@@ -1,0 +1,13 @@
+{
+  "name": "AKAL Creator",
+  "short_name": "AKAL",
+  "description": "Managed creator marketing for B2B SaaS and AI tools. Every placement tracked to real clicks and signups.",
+  "icons": [
+    { "src": "/favicon-180.png", "sizes": "180x180", "type": "image/png" },
+    { "src": "/favicon-512.png", "sizes": "512x512", "type": "image/png" }
+  ],
+  "theme_color": "#FAF8F1",
+  "background_color": "#FAF8F1",
+  "display": "standalone",
+  "start_url": "/"
+}

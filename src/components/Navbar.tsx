@@ -17,12 +17,23 @@ const NAV_LINKS = [
 
 const CTA_LABEL = 'Start a campaign';
 
-/** Pure-type wordmark. No image logo anywhere on this site. */
+/**
+ * The real AKAL mark — Didone wordmark with the red crossbars, vectorised from
+ * the brand asset. It is an inline SVG, not a raster: the letterforms take
+ * `currentColor` so the mark inherits ink, and the site still ships zero images.
+ *
+ * The register's no-imagery rule is about decoration. A company's own mark is
+ * identity, and typing "AKAL" in Satoshi would be an approximation of the brand
+ * rather than the brand.
+ */
 const Wordmark: React.FC<{ className?: string }> = ({ className = '' }) => (
-  <span className={cn('flex items-baseline gap-2 min-w-0', className)}>
-    <span className="text-foreground text-[17px] font-bold tracking-[0.18em] uppercase leading-none">
-      AKAL
-    </span>
+  <span className={cn('flex items-baseline gap-2.5 min-w-0', className)}>
+    <img
+      src="/akal-wordmark.svg"
+      alt="AKAL"
+      className="h-[15px] w-auto shrink-0 select-none"
+      draggable={false}
+    />
     <span className="num text-[10px] uppercase tracking-[0.16em] text-muted-foreground leading-none">
       / Creator
     </span>

@@ -58,14 +58,47 @@ frame-scrub · photographic heroes · `rounded-full` · `rounded-2xl` · bento
 grids · animated borders · aurora backgrounds · logo marquees · drop shadows ·
 floaty container cards.
 
-## Imagery — amended 2026-07-29 (was "none"; overtaken by Ryan's direction)
+## Imagery — MACHINED OPTICS (locked 2026-07-29)
 
-- **Our set:** the HF dispersal frames (`hero/impact/field/network/swirl.webp`)
-  — macro, black void, magenta + amber only. New frames must keep that palette;
-  the acid-green/cyan/indigo takes were rejected for drift, not quality.
-- **Template-sourced:** `ref-*` files fill the reference's slots until Ryan
-  fires replacements (they are shared template art others also use). Each has a
-  planned HF swap at matched aspect.
+**The world:** the inside of a precision optical instrument. Matte-black
+machined metal with brass and copper fittings, dark polished glass, ONE hot
+magenta laser beam, warm amber only where light meets brass or heats a surface,
+pure black ground. It replaces *drifting* with *routing* — which is what the
+product actually does — and its sharp glass edges and thin beams extend the 1px
+UI rather than sitting on top of it.
+
+**The story is a round trip**, one point of light through one placement:
+release (hero film) → the field, few chosen (`mo-array`) → selection
+(`mo-select`) → the crossing (`mo-crossing`) → routes converging (`mo-routing`)
+→ the check (`mo-reticle`) → the etch (Trust cross-fade) → the return
+(`mo-return`) → at rest (`mo-footer`). Light travels left→right down the page;
+only the return frames reverse it, and that reversal is the point.
+
+**THE LOCKED PREFIX — every generation starts with it, verbatim:**
+
+> Extreme macro photograph inside a dark precision optical instrument,
+> matte-black machined metal with small brass and copper fittings, dark polished
+> glass, a single hot magenta laser beam, razor-sharp and perfectly straight,
+> warm amber glow where light meets brass or heats a surface, pure black
+> background, shallow depth of field, no people, no text, no chains, no rivets,
+> no white light sources, photoreal, 8k.
+
+A frame fired WITHOUT it defaults to sci-fi corridors, chains and grey
+warehouses — every off-world take in the first batch was a missing prefix, not
+a bad concept.
+
+**Model choice (measured, not folklore):** Seedream **4.5** for frames where
+objects interact (beam + prism, gripper + cube) — tighter physics, straighter
+beams. **5 Lite** for environments (corridors, wide arrays) — better
+atmosphere, looser physics. When unsure, 4.5; precision is the brand.
+
+**Matched sets need image-to-image.** Text-to-image cannot hold a camera across
+separate generations — two prompts saying "same fixed camera" produce two
+different machines. Generate frame 1, then feed it back as the input image for
+every subsequent frame in the set.
+
+**Rejected for palette drift, not quality:** acid-green/teal, electric-cyan/
+violet, solar-orange/indigo. Two hues only.
 - **Composition law:** art holds its own full-strength column, band, or panel
   with a hard outer edge; scrims feather ONE edge only, spent by the midpoint
   (`via-transparent`). A dimmed wash behind text is the banned failure mode.

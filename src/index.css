@@ -95,6 +95,44 @@
     --radius: 0rem;
   }
 
+  /* ---------------------------------------------------------------------
+     Dark variant — for side-by-side comparison against the white ground.
+     Values read from the compute-11 source Ryan referenced, converted from
+     oklch: a COLD near-black with a blue-violet cast (260°), not pure black,
+     against a WARM off-white ink (90°). That opposition is what stops it
+     looking like a flat greyscale inversion.
+     Toggle with  document.documentElement.dataset.theme = 'dark'.
+  --------------------------------------------------------------------- */
+  :root[data-theme='dark'] {
+    --background: 225 12% 5%;      /* #0B0C10 */
+    --foreground: 45 12% 93%;      /* #EFEDE8 */
+
+    --card: 225 12% 7%;
+    --card-foreground: 45 12% 93%;
+    --popover: 225 12% 7%;
+    --popover-foreground: 45 12% 93%;
+
+    --primary: 45 12% 93%;
+    --primary-foreground: 225 12% 5%;
+
+    --secondary: 225 10% 9%;
+    --secondary-foreground: 45 12% 93%;
+    --muted: 225 10% 9%;
+    --muted-foreground: 45 6% 55%;
+
+    /* Their accent is a PALE pink, not a saturated rose. On black a
+       saturated accent buzzes; the pale one reads as a considered mark. */
+    --accent: 322 58% 79%;         /* #ECA8D6 */
+    --accent-foreground: 225 12% 5%;
+
+    --positive: 156 45% 55%;       /* lifted — #0F7B4F is unreadable on black */
+    --negative: 4 70% 62%;
+
+    --border: 225 10% 16%;         /* #26282E */
+    --input: 225 10% 16%;
+    --ring: 322 58% 79%;
+  }
+
   * {
     @apply border-border;
   }

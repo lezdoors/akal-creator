@@ -18,14 +18,21 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall }) => {
               Creator marketing · managed end to end
             </div>
 
+            {/* Fluid display type. The reference caps at 7rem with leading .92;
+                ours is narrower (the ledger takes 7 of 12 columns) so it tops
+                out lower, but the ratio is the point — tight leading and real
+                scale are what read as confidence.
+
+                Two-tone: the claim in ink, the qualifier dropped to muted. No
+                accent — register rule 6 keeps hue out of headings. The emphasis
+                is value contrast, which is the device the reference actually
+                uses and the reason its headlines land. */}
             <h1
-              className="font-medium tracking-tight leading-[1.02] text-foreground
-                         text-[2.75rem] sm:text-5xl lg:text-[3.5rem] mb-6 animate-appear delay-100"
+              className="font-medium tracking-tight leading-[0.95] mb-6 animate-appear delay-100
+                         text-[clamp(2.5rem,4.4vw,4.25rem)]"
             >
-              {/* No hue in the headline. Register rule 6: the accent is for CTAs
-                  and live-data marks — never headings. Emphasis here is value and
-                  position, not colour. */}
-              Creator marketing that reports like a paid channel.
+              <span className="text-foreground">Creator marketing</span>{' '}
+              <span className="text-muted-foreground">that reports like a paid channel.</span>
             </h1>
 
             <p className="text-muted-foreground text-base md:text-lg leading-relaxed mb-8 animate-appear delay-300">

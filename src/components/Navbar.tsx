@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import { AkalWordmark } from '@/components/AkalWordmark';
 
 interface NavbarProps {
   onBookCall: () => void;
@@ -28,12 +29,7 @@ const CTA_LABEL = 'Start a campaign';
  */
 const Wordmark: React.FC<{ className?: string }> = ({ className = '' }) => (
   <span className={cn('flex items-baseline gap-2.5 min-w-0', className)}>
-    <img
-      src="/akal-wordmark.svg"
-      alt="AKAL"
-      className="h-[15px] w-auto shrink-0 select-none"
-      draggable={false}
-    />
+    <AkalWordmark className="h-[15px] w-auto shrink-0 text-foreground" />
     <span className="num text-[10px] uppercase tracking-[0.16em] text-muted-foreground leading-none">
       / Creator
     </span>

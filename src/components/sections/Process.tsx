@@ -81,10 +81,13 @@ export const Process: React.FC = () => {
       index="02"
       label="PROCESS"
       title="Three steps. You approve one of them."
+      motes={30}
       lede="The other two are ours. You are never asked to chase a creator, chase an invoice, or take our word for a number."
     >
       {/* gap-px over a border-coloured ground draws the dividers, so adjacent
-          cards share one hairline instead of stacking two. */}
+          cards share one hairline instead of stacking two.
+          Motes sit behind the grid — the cards are opaque, so the drift reads
+          in the margins around them rather than under the copy. */}
       <div
         ref={ref}
         role="tablist"
@@ -94,7 +97,7 @@ export const Process: React.FC = () => {
         onMouseLeave={() => setPaused(false)}
         onFocusCapture={() => setPaused(true)}
         onBlurCapture={() => setPaused(false)}
-        className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border min-w-0"
+        className="relative grid grid-cols-1 md:grid-cols-3 gap-px bg-border border border-border min-w-0"
       >
         {STEPS.map((step, i) => {
           const on = active === i;

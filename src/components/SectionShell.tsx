@@ -1,5 +1,6 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
+import { Motes } from '@/components/Motes';
 import { Reveal } from '@/components/Reveal';
 
 export interface SectionShellProps {
@@ -23,6 +24,8 @@ export interface SectionShellProps {
   hairline?: boolean;
   /** 'band' uses the secondary paper value to separate adjacent sections. */
   tone?: 'paper' | 'band';
+  /** Drifting points of light behind the section. 0 = none. */
+  motes?: number;
 }
 
 /**
@@ -50,11 +53,13 @@ export const SectionShell: React.FC<SectionShellProps> = ({
   lede,
   hairline = true,
   tone,
+  motes = 0,
 }) => (
   <section
     id={id}
     className={cn(
       'w-full',
+      'relative overflow-hidden',
       hairline && 'border-t border-border',
       // Alternate white / band down the page. Derived from the section index
       // rather than threaded through every call site, so the rhythm can never
@@ -63,7 +68,8 @@ export const SectionShell: React.FC<SectionShellProps> = ({
       className,
     )}
   >
-    <div className="mx-auto w-full max-w-[1280px] px-6">
+    {motes > 0 && <Motes count={motes} seed={Number(index) * 13 + 5} />}
+    <div className="relative mx-auto w-full max-w-[1280px] px-6">
       <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 py-16 md:py-24">
         {/* Left gutter — pins and releases within this section only. */}
         <div className="col-span-12 md:col-span-3 lg:col-span-2 min-w-0 self-start md:sticky md:top-24 mb-8 md:mb-0">

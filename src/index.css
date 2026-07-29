@@ -71,9 +71,10 @@
     --muted: 225 10% 9%;
     --muted-foreground: 45 6% 55%;
 
-    /* Their accent is a PALE pink, not a saturated rose. On black a
-       saturated accent buzzes; the pale one reads as a considered mark. */
-    --accent: 322 58% 79%;         /* #ECA8D6 */
+    /* Bright pink. Lifted from the reference's pale #ECA8D6 — that one reads
+       as dusty against a true black ground. Luminous enough to carry a numeral
+       and a 3px bar, held back from neon so it doesn't vibrate on the edge. */
+    --accent: 325 90% 70%;         /* #F76DBE */
     --accent-foreground: 225 12% 5%;
 
     --positive: 156 45% 55%;       /* lifted — #0F7B4F is unreadable on black */
@@ -81,7 +82,7 @@
 
     --border: 225 10% 16%;         /* #26282E */
     --input: 225 10% 16%;
-    --ring: 322 58% 79%;
+    --ring: 325 90% 70%;
     --destructive: 4 70% 62%;
     --destructive-foreground: 225 12% 5%;
 
@@ -190,6 +191,24 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
+/* One drifting point of light. Transform + opacity only, so it composites on
+   the GPU and never lands on the main thread. */
+@keyframes mote-drift {
+  0%   { transform: translate3d(0, 0, 0); }
+  50%  { transform: translate3d(var(--drift, 20px), var(--rise, -40px), 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+
+.mote {
+  position: absolute;
+  border-radius: 9999px;           /* the one round thing on this site: it is a point of light, not a component */
+  background: hsl(var(--foreground));
+  animation-name: mote-drift;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: infinite;
+  will-change: transform;
+}
+
 /* Sweeps a rule left-to-right for the dwell of the active card. */
 @keyframes progress {
   from { transform: scaleX(0); }
@@ -257,5 +276,6 @@
   }
   /* No sweeping rules or self-drawing lines under reduced motion. */
   .animate-progress { transform: scaleX(1); animation: none; }
+  .mote { animation: none; }
   .connector-line   { stroke-dashoffset: 0; opacity: 0.5; animation: none; }
 }

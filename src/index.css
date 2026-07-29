@@ -191,6 +191,18 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
+/* Each glyph rises from below its own clipped box, so it reads as being set
+   rather than faded in. */
+@keyframes char-in {
+  from { opacity: 0; transform: translateY(60%); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-char-in {
+  animation: char-in 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  opacity: 0;
+}
+
 /* One drifting point of light. Transform + opacity only, so it composites on
    the GPU and never lands on the main thread. */
 @keyframes mote-drift {
@@ -277,5 +289,6 @@
   /* No sweeping rules or self-drawing lines under reduced motion. */
   .animate-progress { transform: scaleX(1); animation: none; }
   .mote { animation: none; }
+  .animate-char-in { opacity: 1; transform: none; animation: none; }
   .connector-line   { stroke-dashoffset: 0; opacity: 0.5; animation: none; }
 }

@@ -1,6 +1,7 @@
 import React from 'react';
 import { cn } from '@/lib/utils';
 import { Motes } from '@/components/Motes';
+import { ConnectorField } from '@/components/ConnectorField';
 import { Reveal } from '@/components/Reveal';
 
 export interface SectionShellProps {
@@ -26,6 +27,11 @@ export interface SectionShellProps {
   tone?: 'paper' | 'band';
   /** Drifting points of light behind the section. 0 = none. */
   motes?: number;
+  /** Self-drawing connector lattice behind the section. */
+  field?: boolean;
+  /** Full-bleed image behind the section, right-anchored and heavily dimmed.
+   *  Never carries meaning — the copy must read with it absent. */
+  image?: string;
 }
 
 /**
@@ -54,12 +60,14 @@ export const SectionShell: React.FC<SectionShellProps> = ({
   hairline = true,
   tone,
   motes = 0,
+  field = false,
+  image,
 }) => (
   <section
     id={id}
     className={cn(
       'w-full',
-      'relative overflow-hidden',
+      'relative',
       hairline && 'border-t border-border',
       // Alternate white / band down the page. Derived from the section index
       // rather than threaded through every call site, so the rhythm can never
@@ -68,6 +76,31 @@ export const SectionShell: React.FC<SectionShellProps> = ({
       className,
     )}
   >
+    {image && (
+      /* Sticky so the art holds position through tall sections (the manifesto
+         runs 2.4 viewports). h-full on a section that tall stretches the image
+         to several thousand pixels wide and pushes it off-frame. */
+      <div aria-hidden className="pointer-events-none absolute inset-0">
+        <div className="sticky top-0 h-screen w-full overflow-hidden">
+          <img
+            src={image}
+            alt=""
+            className="absolute right-0 top-1/2 -translate-y-1/2 h-[78%] w-auto max-w-[62%] object-contain opacity-95
+                       [mask-image:radial-gradient(ellipse_60%_58%_at_45%_50%,#000_55%,transparent_82%)]
+                       [-webkit-mask-image:radial-gradient(ellipse_60%_58%_at_45%_50%,#000_55%,transparent_82%)]"
+            loading="lazy"
+            decoding="async"
+          />
+          {/* A radial mask feathers the frame edges to nothing. mix-blend-screen
+              was the obvious fix but does not work here: the sticky+overflow
+              wrapper opens a stacking context, so the blend resolves against
+              transparent rather than the section colour and the rectangle
+              stays visible. The mask does not care about stacking context. */}
+          <div className="absolute inset-y-0 left-0 w-[45%] bg-gradient-to-r from-background via-background/80 to-transparent" />
+        </div>
+      </div>
+    )}
+    {field && <ConnectorField seed={Number(index) * 7 + 1} />}
     {motes > 0 && <Motes count={motes} seed={Number(index) * 13 + 5} />}
     <div className="relative mx-auto w-full max-w-[1280px] px-6">
       <div className="grid grid-cols-12 gap-x-6 md:gap-x-8 py-16 md:py-24">

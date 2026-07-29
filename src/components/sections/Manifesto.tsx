@@ -111,6 +111,8 @@ export const Manifesto: React.FC<ManifestoProps> = ({
       index={index}
       label={label}
       title="Every placement clears the same three checks."
+      image="/images/hero.webp"
+      motes={18}
     >
       {reduced ? (
         /* Reduced motion: the whole manifesto, static. */

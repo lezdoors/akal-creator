@@ -164,7 +164,6 @@ export const Trust: React.FC<TrustProps> = ({
     label={label}
     title="You keep the relationships, the rates and the link."
     lede="Managed does not mean captured. Five things stay yours whatever happens to this arrangement, written out in the plainest words we can put them in."
-    motes={16}
   >
     {/*
       Flush bordered grid. The container draws the top rule (and the left rule
@@ -259,7 +258,7 @@ export const Trust: React.FC<TrustProps> = ({
               className={cn(
                 'absolute right-0 top-1/2 -translate-y-1/2 h-3/4 w-3/4 object-contain object-right',
                 'transition-opacity duration-700',
-                active === i ? 'opacity-85' : 'opacity-0',
+                active === i ? 'opacity-100' : 'opacity-0',
               )}
             />
           ))}

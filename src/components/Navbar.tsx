@@ -10,10 +10,10 @@ interface NavbarProps {
 
 /** Copy lives inline. i18n is retired — do not reintroduce locale keys. */
 const NAV_LINKS = [
-  { label: 'What we run', href: '/#services' },
-  { label: 'Tracking', href: '/#tracking' },
-  { label: 'Pricing', href: '/#pricing' },
-  { label: 'FAQ', href: '/#faq' },
+  { n: '01', label: 'What we run', href: '/#services' },
+  { n: '03', label: 'Tracking', href: '/#tracking' },
+  { n: '07', label: 'Pricing', href: '/#pricing' },
+  { n: '09', label: 'FAQ', href: '/#faq' },
 ];
 
 const CTA_LABEL = 'Start a campaign';
@@ -110,6 +110,11 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookCall }) => {
                     : 'text-muted-foreground hover:text-foreground',
                 )}
               >
+                {/* The section index travels into the nav — the links become a
+                    jump list into the document's own numbering, which no
+                    template nav carries. This is the one structural move that
+                    takes the nav off the stock wordmark+links+button pattern. */}
+                <span className="num text-[10px] text-muted-foreground mr-1.5 align-[1px]">{link.n}</span>
                 {link.label}
               </Link>
             ))}
@@ -135,16 +140,14 @@ export const Navbar: React.FC<NavbarProps> = ({ onBookCall }) => {
       {mobileOpen && (
         <div className="fixed inset-0 bg-background z-[99] pt-16 md:hidden">
           <div className="px-6 pt-4">
-            {NAV_LINKS.map((link, i) => (
+            {NAV_LINKS.map(link => (
               <Link
                 key={link.href}
                 to={link.href}
                 onClick={e => handleNavClick(e, link.href)}
                 className="flex items-baseline gap-4 py-5 border-b border-border text-foreground text-xl"
               >
-                <span className="num text-[11px] text-muted-foreground">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
+                <span className="num text-[11px] text-muted-foreground">{link.n}</span>
                 <span>{link.label}</span>
               </Link>
             ))}

@@ -1,7 +1,6 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { AttributionLedger } from '@/components/AttributionLedger';
-import { Motes } from '@/components/Motes';
 import { useReducedMotion } from '@/hooks/useInView';
 
 interface HeroProps {
@@ -55,9 +54,8 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall }) => {
           <span key={`v${l}`} className="absolute inset-y-0 w-px bg-border" style={{ left: `${l}%` }} />
         ))}
       </div>
-      {/* Drifting light, as on every other dark panel. 26 across a full
-          viewport is the same density FeaturePanel runs at panel scale. */}
-      <Motes count={26} seed={11} />
+      {/* No motes here: the film already supplies the ambience, and the motion
+          budget is two live systems per viewport (film + ledger count-ups). */}
 
       <div className="relative max-w-7xl mx-auto w-full">
         <div className="grid lg:grid-cols-12 gap-10 lg:gap-12 items-start">

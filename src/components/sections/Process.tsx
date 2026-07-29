@@ -104,7 +104,6 @@ export const Process: React.FC<ProcessProps> = ({
       index={index}
       label={label}
       title="Three steps. You approve one of them."
-      motes={30}
       lede="The other two are ours. You are never asked to chase a creator, chase an invoice, or take our word for a number."
     >
       {/* Reference slot: the tall art column whose base lands on the card row

@@ -22,7 +22,7 @@ site for its geometry only — no other brand appears anywhere.
 | Axis | Lock |
 |---|---|
 | Type | **Satoshi** (UI/display) + **Commit Mono** (all figures) — self-hosted in `public/fonts` |
-| Ground | White `#FFFFFF` alternating with band `#F6F7F9` · ink `#171717` · muted `#6B6B6B` · rules `#E1E4E8` |
+| Ground | **Dark default:** `#0B0C10` (cold near-black, 225° cast) · ink `#EFEDE8` (warm, 45°) · muted 55% · rules `#26282E`. Light kept behind `?theme=light` for comparison only |
 | Grammar | **The ledger** — the page is a document, not a deck |
 | Signature | **Live attribution ledger** in the hero (`src/components/AttributionLedger.tsx`) |
 | Imagery | **The dispersal set + `ref-*` slot-fillers** — always full-strength columns/bands, never washes behind text. Video: hero slot only, muted/looped, poster fallback |
@@ -35,16 +35,17 @@ site for its geometry only — no other brand appears anywhere.
    ground value only.
 3. **Hairline rules are the structural device.** 1px `border-border`, edge to
    edge. This is what makes it read as a document.
-3b. **Sections alternate white / band down the page.** `SectionShell` derives
+3b. **Sections alternate ground / band down the page.** `SectionShell` derives
    this from the section `index` parity, so the rhythm cannot drift out of step
-   when sections are reordered. The band is cool (`220 14% 97%`), never warm —
-   a warm band on white reads as a stain, a cool one reads as a plate.
+   when sections are reordered. On the dark ground the band is `225 10% 9%`;
+   on the light variant `220 14% 97%` — cool in both cases, never warm.
 4. **Left-aligned throughout.** Nothing centred.
 5. **Every figure is Commit Mono with `tabular-nums`** — use the `.num` or
    `.col-num` class. A number in the sans face is a bug.
-6. **The accent (`hsl(var(--accent))`, rose `#E02966`) appears at most three
-   times per viewport.** It is for CTAs and live-data marks. Never headings,
-   never decoration.
+6. **The accent (`hsl(var(--accent))`, bright pink `#F76DBE` on the dark
+   ground; rose `#E02966` on the light variant) appears at most three times per
+   viewport.** It is for CTAs and live-data marks. Never headings, never
+   decoration.
 7. **`positive` / `negative` colours are for ledger deltas only.**
 8. Section row label in the left gutter, mono: `01 / SOURCING`. Use `.row-label`.
 9. Numbers right-align to a column axis that holds across sections.
@@ -80,7 +81,9 @@ typing "AKAL" in Satoshi is an approximation of the brand rather than the brand.
 
 - `public/akal-wordmark.svg` — the Didone wordmark with the red crossbars,
   vectorised from the brand asset. **Vector, 2.4KB, letterforms take
-  `currentColor`.** The site still ships zero raster images.
+  `currentColor`** — inlined as a component so it inherits ink on any ground.
+  (The "zero raster images" era ended with the imagery amendment below; the
+  mark itself remains vector.)
 - Favicons are raster by necessity (`favicon-16/32/48/180/512`, `favicon.ico`).
   The small sizes carry an **optically thickened crossbar** — at 32px the
   source hairline vanishes entirely, and the bar is what the mark is
@@ -129,6 +132,10 @@ Strong lines already approved:
 ## Motion
 
 CSS + IntersectionObserver only. **No framer-motion, no GSAP, no canvas scrub.**
+
+**Budget: at most two live motion systems in any one viewport** (hallmark audit
+2026-07-29). The hero spends its two on the film + ledger count-ups; a section
+carrying art or a timer does not also get motes. Timers stop off-screen.
 
 - `.animate-appear` — opacity + 10px rise, 500ms ease-out
 - `.animate-appear-zoom` — opacity + scale .98→1

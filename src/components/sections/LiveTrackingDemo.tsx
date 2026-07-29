@@ -237,10 +237,12 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
       {/* Reference slot (metrics-section:273): a full-content-width art band
           between the headline and the working panel, full strength, NO overlay,
           the content butting straight against its lower edge (-mb rule shared).
-          Decorative art of a graph — it carries no caption and claims nothing. */}
+          ref-graph was pulled here: green/multicolour, a direct palette drift
+          in a magenta+amber system — the exact failure the register names. The
+          on-palette field frame holds the slot until the HF 3:1 band lands. */}
       <div aria-hidden className="relative w-full overflow-hidden mb-0 border border-border border-b-0">
         <img
-          src="/images/ref-graph.webp"
+          src="/images/field.webp"
           alt=""
           loading="lazy"
           decoding="async"

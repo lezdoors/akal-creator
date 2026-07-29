@@ -1,7 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 import { SectionShell } from '@/components/SectionShell';
 import { Reveal } from '@/components/Reveal';
+import { useInView } from '@/hooks/useInView';
 
 /**
  * CONTROL — what the client keeps.
@@ -110,6 +111,22 @@ const KEEPS: readonly Guarantee[] = [
   },
 ] as const;
 
+/**
+ * The reference's cross-fade device (security-section:101): four matched 1:1
+ * frames stacked in one box, advancing on a 3s timer and following hover on
+ * the adjacent card list. The frames are the template's own matched set —
+ * atmosphere only; every claim stays in our copy. Card 05 (the wide closer)
+ * deliberately has no frame: it spans below both columns.
+ */
+const FRAMES = [
+  '/images/ref-isolated.webp',
+  '/images/ref-encrypted.webp',
+  '/images/ref-permissions.webp',
+  '/images/ref-audit.webp',
+] as const;
+
+const FRAME_DWELL_MS = 3000;
+
 /** House stagger. Ledger rows and card grids both step at 60ms. */
 const STAGGER_MS = 60;
 
@@ -126,7 +143,21 @@ export const Trust: React.FC<TrustProps> = ({
   index = '06',
   label = 'CONTROL',
   id = 'control',
-}) => (
+}) => {
+  const [active, setActive] = useState(0);
+  const [hovered, setHovered] = useState(false);
+  const [frameRef, framesInView] = useInView<HTMLDivElement>({ once: false, threshold: 0.2 });
+
+  // Reference timing: 3s dwell. Runs only in view, yields to hover, and does
+  // not run at all under reduced motion (hover still drives the frame).
+  useEffect(() => {
+    if (!framesInView || hovered) return;
+    if (window.matchMedia?.('(prefers-reduced-motion: reduce)').matches) return;
+    const t = window.setInterval(() => setActive((i) => (i + 1) % FRAMES.length), FRAME_DWELL_MS);
+    return () => window.clearInterval(t);
+  }, [framesInView, hovered]);
+
+  return (
   <SectionShell
     id={id}
     index={index}
@@ -145,7 +176,9 @@ export const Trust: React.FC<TrustProps> = ({
       child of SectionShell. Without it a single unbreakable string could push
       the page sideways at 390px.
     */}
-    <div className="grid grid-cols-1 md:grid-cols-2 border-t border-border md:border-l min-w-0">
+    <div ref={frameRef} className="lg:grid lg:grid-cols-12 lg:gap-8 min-w-0">
+    <div className="lg:col-span-7 flex flex-col border-t border-border md:border-l min-w-0"
+         onMouseLeave={() => setHovered(false)}>
       {KEEPS.map((item, i) => (
         <Reveal
           key={item.n}
@@ -158,7 +191,15 @@ export const Trust: React.FC<TrustProps> = ({
           {/* group + h-full: the hover state lives entirely on this child, so
               the stagger's animation delay above can never make a card feel
               dead to the cursor. */}
-          <div className="group relative h-full py-7 md:p-8 lg:p-10 min-w-0">
+          <div
+            className="group relative h-full py-7 md:p-8 lg:p-10 min-w-0"
+            onMouseEnter={() => {
+              if (i < FRAMES.length) {
+                setActive(i);
+                setHovered(true);
+              }
+            }}
+          >
             {/* The border lift. An overlaid hairline rather than a change to
                 the cell's own border, so nothing reflows and the flush grid
                 stays flush — a 1px border swapping colour on one side only
@@ -202,6 +243,33 @@ export const Trust: React.FC<TrustProps> = ({
       ))}
     </div>
 
+      {/* The cross-fade box — reference geometry: one bordered panel, frames at
+          h-3/4 w-3/4, object-contain object-right, opacity .85, 700ms fade.
+          Sticky so it rides beside the card list at lg; absent below lg where
+          it would letterbox between stacked cards. */}
+      <div aria-hidden className="hidden lg:block lg:col-span-5 min-w-0">
+        <div className="sticky top-24 border border-border bg-background overflow-hidden aspect-square relative">
+          {FRAMES.map((src, i) => (
+            <img
+              key={src}
+              src={src}
+              alt=""
+              loading="lazy"
+              decoding="async"
+              className={cn(
+                'absolute right-0 top-1/2 -translate-y-1/2 h-3/4 w-3/4 object-contain object-right',
+                'transition-opacity duration-700',
+                active === i ? 'opacity-85' : 'opacity-0',
+              )}
+            />
+          ))}
+          <span className="num absolute bottom-4 left-5 text-[11px] tracking-[0.14em] text-muted-foreground">
+            {String(active + 1).padStart(2, '0')} / {String(FRAMES.length).padStart(2, '0')}
+          </span>
+        </div>
+      </div>
+    </div>
+
     {/*
       Where the reference prints SOC 2, ISO 27001 and GDPR badges. We hold none
       of them, so this is the substitution: one registration, stated plainly,
@@ -224,6 +292,7 @@ export const Trust: React.FC<TrustProps> = ({
       </p>
     </Reveal>
   </SectionShell>
-);
+  );
+};
 
 export default Trust;

@@ -107,6 +107,20 @@ export const Process: React.FC<ProcessProps> = ({
       motes={30}
       lede="The other two are ours. You are never asked to chase a creator, chase an invoice, or take our word for a number."
     >
+      {/* Reference slot: the tall art column whose base lands on the card row
+          (how-it-works-section:101). object-contain object-bottom so the
+          subject stands on the cards' top rule; left edge feathered into the
+          ground; dropped below lg where it would letterbox. */}
+      <div aria-hidden className="hidden lg:block relative h-[420px] -mb-px overflow-hidden">
+        <img
+          src="/images/ref-tree.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="art-fade-tl absolute right-0 bottom-0 h-full w-auto max-w-[52%] object-contain object-bottom"
+        />
+        <div className="absolute inset-y-0 left-0 w-[55%] bg-gradient-to-r from-background via-background/60 to-transparent" />
+      </div>
       {/* gap-px over a border-coloured ground draws the dividers, so adjacent
           cards share one hairline instead of stacking two.
           Motes sit behind the grid — the cards are opaque, so the drift reads

@@ -25,7 +25,7 @@ site for its geometry only — no other brand appears anywhere.
 | Ground | White `#FFFFFF` alternating with band `#F6F7F9` · ink `#171717` · muted `#6B6B6B` · rules `#E1E4E8` |
 | Grammar | **The ledger** — the page is a document, not a deck |
 | Signature | **Live attribution ledger** in the hero (`src/components/AttributionLedger.tsx`) |
-| Imagery | **None.** Zero photography, stock, illustration, 3D, gradients, mockups |
+| Imagery | **The dispersal set + `ref-*` slot-fillers** — always full-strength columns/bands, never washes behind text. Video: hero slot only, muted/looped, poster fallback |
 | Mark | The AKAL Didone wordmark, `public/akal-wordmark.svg` — vector, `currentColor` |
 
 ## Non-negotiable rules
@@ -55,7 +55,23 @@ Serif + cream + hairline editorial · glassmorphism · neumorphism ·
 radial-gradient glows · gradient-clip text · centred heroes · canvas
 frame-scrub · photographic heroes · `rounded-full` · `rounded-2xl` · bento
 grids · animated borders · aurora backgrounds · logo marquees · drop shadows ·
-floaty container cards · AI-generated video or imagery of any kind.
+floaty container cards.
+
+## Imagery — amended 2026-07-29 (was "none"; overtaken by Ryan's direction)
+
+- **Our set:** the HF dispersal frames (`hero/impact/field/network/swirl.webp`)
+  — macro, black void, magenta + amber only. New frames must keep that palette;
+  the acid-green/cyan/indigo takes were rejected for drift, not quality.
+- **Template-sourced:** `ref-*` files fill the reference's slots until Ryan
+  fires replacements (they are shared template art others also use). Each has a
+  planned HF swap at matched aspect.
+- **Composition law:** art holds its own full-strength column, band, or panel
+  with a hard outer edge; scrims feather ONE edge only, spent by the midpoint
+  (`via-transparent`). A dimmed wash behind text is the banned failure mode.
+- **Video:** hero slot only — muted, looped, playsInline, poster fallback,
+  suppressed under reduced-motion and on the light ground.
+- **Unchanged:** decorative art is not proof. No image may carry a metric,
+  logo, badge, or any claim. The fabrication rule stands whole.
 
 ## The brand mark — the one carve-out
 

@@ -228,7 +228,8 @@ export const Scale: React.FC<ScaleProps> = ({
       ))}
     </div>
 
-    {/* network.webp earns this slot: a filament lattice with lit nodes is
+    {/* ref-world.webp fills the reference's world-map slot (its infrastructure
+        panel). network.webp (our HF lattice) remains the swap-in candidate —
         literally the subject — many surfaces, one connected record. It is held
         in FeaturePanel's own full-strength 42% column rather than dimmed behind
         the copy, and it is placed at the far end of the section from the
@@ -240,7 +241,7 @@ export const Scale: React.FC<ScaleProps> = ({
       title="One roster, priced per surface"
       body="The same creator is worth a different number on a twenty-minute review than in a newsletter slot, and we price each surface on its own median views. The brief, the paperwork and the payment run once."
       stat={{ value: 'One invoice', label: 'you pay us; we pay every creator, in their currency' }}
-      image="/images/network.webp"
+      image="/images/ref-world.webp"
       className="mt-12 md:mt-16"
     />
   </SectionShell>

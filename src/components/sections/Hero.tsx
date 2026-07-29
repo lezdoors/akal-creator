@@ -2,6 +2,7 @@ import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { AttributionLedger } from '@/components/AttributionLedger';
 import { Motes } from '@/components/Motes';
+import { useReducedMotion } from '@/hooks/useInView';
 
 interface HeroProps {
   onBookCall: () => void;
@@ -9,17 +10,43 @@ interface HeroProps {
 
 /** Copy lives inline. i18n is retired — do not reintroduce locale keys. */
 export const Hero: React.FC<HeroProps> = ({ onBookCall }) => {
+  const reduced = useReducedMotion();
+
   return (
     <section className="relative overflow-hidden px-6 md:px-10 pt-32 pb-16 md:pt-40 md:pb-24">
-      {/* The reference hero is entirely atmosphere: a full-bleed frame with a
-          hairline lattice ruled over it. We take the lattice and leave the
-          frame — the right column here is the AttributionLedger, the signature
-          of the whole site, and an image behind an opaque data table would be
-          occluded to nothing. So the ground gets structure rather than art:
-          the same ruled grammar as the document below, at an alpha where it
-          reads as a plate and never competes with the headline.
-          (Logged as an image gap: a hero frame would need a composition that
-          gives it a real column, which this two-column split has no room for.) */}
+      {/* The reference hero treatment, 1:1: a full-bleed background film at
+          opacity-80 under a left-dark scrim and the hairline lattice. The
+          ledger is opaque and sits on top, so the film reads in the margins
+          around it — same mechanics as the lattice. 8s seamless loop, muted,
+          playsInline; metadata preload so the 3.3MB file never blocks paint.
+          Under prefers-reduced-motion the poster still stands in — an ambient
+          film is exactly the motion that rule exists for. */}
+      <div aria-hidden className="hero-film pointer-events-none absolute inset-0">
+        {reduced ? (
+          <img
+            src="/images/ref-hero-poster.webp"
+            alt=""
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
+          />
+        ) : (
+          <video
+            className="absolute inset-0 w-full h-full object-cover opacity-80"
+            src="/images/ref-hero.mp4"
+            poster="/images/ref-hero-poster.webp"
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="metadata"
+          />
+        )}
+        {/* Left-dark scrim: the headline column must hold contrast over the
+            film's brightest passage. Vignettes top and bottom seat the film
+            into the nav bar above and the section rule below. */}
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/20" />
+        <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-background to-transparent" />
+      </div>
       <div aria-hidden className="pointer-events-none absolute inset-0 opacity-[0.5]">
         {[12.5, 25, 37.5, 50, 62.5, 75, 87.5].map((t) => (
           <span key={`h${t}`} className="absolute inset-x-0 h-px bg-border" style={{ top: `${t}%` }} />

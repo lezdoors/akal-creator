@@ -242,7 +242,7 @@ export const FinalCTA: React.FC<FinalCTAProps> = ({
                     below lg. */}
                 <div className="hidden lg:block relative w-[42%] shrink-0 min-h-[280px] overflow-hidden">
                   <img
-                    src="/images/impact.webp"
+                    src="/images/ref-connection.webp"
                     alt=""
                     aria-hidden
                     loading="lazy"

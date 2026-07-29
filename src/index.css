@@ -158,6 +158,23 @@
 --------------------------------------------------------------------------- */
 
 @layer components {
+  /* The hero film is a dark-ground device; on the light ground it would read
+     as a grey smear, so it is removed entirely rather than dimmed. */
+  :root[data-theme='light'] .hero-film { display: none; }
+
+  /* Feathers an art frame's top and left edges into the ground. For assets
+     whose own black is not exactly ours — an overlay can only fix the edges it
+     covers, a mask removes the mismatch where it fades. Bottom and right stay
+     hard: reference frames stand on rules and bleed to the content edge. */
+  .art-fade-tl {
+    mask-image: linear-gradient(to left, #000 55%, transparent 97%),
+                linear-gradient(to top, #000 72%, transparent 98%);
+    mask-composite: intersect;
+    -webkit-mask-image: linear-gradient(to left, #000 55%, transparent 97%),
+                        linear-gradient(to top, #000 72%, transparent 98%);
+    -webkit-mask-composite: source-in;
+  }
+
   /* Section row label in the left gutter: 01 / SOURCING */
   .row-label {
     font-family: 'Commit Mono', ui-monospace, monospace;

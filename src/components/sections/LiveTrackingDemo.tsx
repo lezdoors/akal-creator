@@ -234,7 +234,20 @@ export const LiveTrackingDemo: React.FC<LiveTrackingDemoProps> = ({
       title="Watch a click become attribution."
       lede="This is the tracking service, running. Open the link below and your own click lands in the table in about two seconds — the same path every creator placement takes."
     >
-      <div ref={ref} className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-12 min-w-0">
+      {/* Reference slot (metrics-section:273): a full-content-width art band
+          between the headline and the working panel, full strength, NO overlay,
+          the content butting straight against its lower edge (-mb rule shared).
+          Decorative art of a graph — it carries no caption and claims nothing. */}
+      <div aria-hidden className="relative w-full overflow-hidden mb-0 border border-border border-b-0">
+        <img
+          src="/images/ref-graph.webp"
+          alt=""
+          loading="lazy"
+          decoding="async"
+          className="block w-full h-auto object-cover max-h-[300px]"
+        />
+      </div>
+      <div ref={ref} className="grid grid-cols-1 lg:grid-cols-12 gap-x-8 gap-y-12 min-w-0 border-t border-border pt-10">
         {/* ---------------------------------------------------------------
             Left — the chain.
         --------------------------------------------------------------- */}

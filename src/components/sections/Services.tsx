@@ -1,5 +1,6 @@
 import React from 'react';
 import { SectionShell } from '@/components/SectionShell';
+import { FeaturePanel } from '@/components/FeaturePanel';
 import { Reveal } from '@/components/Reveal';
 
 /** One stage of the loop. `span` is the row range it covers, in mono. */
@@ -62,6 +63,22 @@ export const Services: React.FC = () => (
     title="What we run"
     lede="One managed loop: we find the creators, agree the price, run the paperwork and the payments, and track what every placement returns."
   >
+      {/* Art holds its own column at full strength — see FeaturePanel. The
+          five rows below carry the detail; this carries the weight. */}
+      {/* No invented figure in the stat slot. An earlier draft read "14 signals
+          per creator" — a number with no source, which is the exact class of
+          claim this site cannot carry. The differentiator is true and needs no
+          digit. */}
+      <FeaturePanel
+        index="01"
+        title="We find the audience, not the follower count"
+        body="Subscriber counts are vanity. We rank creators on median views across recent posts, then model what a placement is worth on a CPM basis and negotiate against that number."
+        stat={{ value: 'Median', label: 'views — not subscribers. the number we rank on' }}
+        image="/images/hero.webp"
+        flip
+        className="mb-12"
+      />
+
     {/* The triad. Three cells, hairline-divided, left-aligned. */}
     <Reveal className="border-y border-border grid grid-cols-1 sm:grid-cols-3 divide-y divide-border sm:divide-y-0 sm:divide-x">
       {STAGES.map((stage) => (

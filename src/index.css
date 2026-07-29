@@ -47,12 +47,48 @@
 
 /* ---------------------------------------------------------------------------
    Register tokens — AKAL Creator
-   Crisp white ground with alternating tonal bands, hard corners, hairline rules.
-   Light only. No dark mode in v1.
+   DARK is the default ground: cold near-black (blue-violet cast) against warm
+   off-white ink. Defined on :root rather than toggled in JS so there is no
+   flash of white before hydration. The light ground is kept behind
+   [data-theme='light'] for comparison — see ?theme=light.
 --------------------------------------------------------------------------- */
 
 @layer base {
   :root {
+    --background: 225 12% 5%;      /* #0B0C10 */
+    --foreground: 45 12% 93%;      /* #EFEDE8 */
+
+    --card: 225 12% 7%;
+    --card-foreground: 45 12% 93%;
+    --popover: 225 12% 7%;
+    --popover-foreground: 45 12% 93%;
+
+    --primary: 45 12% 93%;
+    --primary-foreground: 225 12% 5%;
+
+    --secondary: 225 10% 9%;
+    --secondary-foreground: 45 12% 93%;
+    --muted: 225 10% 9%;
+    --muted-foreground: 45 6% 55%;
+
+    /* Their accent is a PALE pink, not a saturated rose. On black a
+       saturated accent buzzes; the pale one reads as a considered mark. */
+    --accent: 322 58% 79%;         /* #ECA8D6 */
+    --accent-foreground: 225 12% 5%;
+
+    --positive: 156 45% 55%;       /* lifted — #0F7B4F is unreadable on black */
+    --negative: 4 70% 62%;
+
+    --border: 225 10% 16%;         /* #26282E */
+    --input: 225 10% 16%;
+    --ring: 322 58% 79%;
+    --destructive: 4 70% 62%;
+    --destructive-foreground: 225 12% 5%;
+
+    /* Hard corners. This is load-bearing — do not soften. */
+    --radius: 0rem;
+  }
+  :root[data-theme='light'] {
     --background: 0 0% 100%;       /* #FFFFFF crisp white */
     --foreground: 0 0% 9%;         /* #171717 ink         */
 
@@ -91,46 +127,6 @@
     --input: 220 13% 89%;
     --ring: 340 75% 52%;
 
-    /* Hard corners. This is load-bearing — do not soften. */
-    --radius: 0rem;
-  }
-
-  /* ---------------------------------------------------------------------
-     Dark variant — for side-by-side comparison against the white ground.
-     Values read from the compute-11 source Ryan referenced, converted from
-     oklch: a COLD near-black with a blue-violet cast (260°), not pure black,
-     against a WARM off-white ink (90°). That opposition is what stops it
-     looking like a flat greyscale inversion.
-     Toggle with  document.documentElement.dataset.theme = 'dark'.
-  --------------------------------------------------------------------- */
-  :root[data-theme='dark'] {
-    --background: 225 12% 5%;      /* #0B0C10 */
-    --foreground: 45 12% 93%;      /* #EFEDE8 */
-
-    --card: 225 12% 7%;
-    --card-foreground: 45 12% 93%;
-    --popover: 225 12% 7%;
-    --popover-foreground: 45 12% 93%;
-
-    --primary: 45 12% 93%;
-    --primary-foreground: 225 12% 5%;
-
-    --secondary: 225 10% 9%;
-    --secondary-foreground: 45 12% 93%;
-    --muted: 225 10% 9%;
-    --muted-foreground: 45 6% 55%;
-
-    /* Their accent is a PALE pink, not a saturated rose. On black a
-       saturated accent buzzes; the pale one reads as a considered mark. */
-    --accent: 322 58% 79%;         /* #ECA8D6 */
-    --accent-foreground: 225 12% 5%;
-
-    --positive: 156 45% 55%;       /* lifted — #0F7B4F is unreadable on black */
-    --negative: 4 70% 62%;
-
-    --border: 225 10% 16%;         /* #26282E */
-    --input: 225 10% 16%;
-    --ring: 322 58% 79%;
   }
 
   * {
@@ -194,6 +190,21 @@
   to   { opacity: 1; transform: scale(1); }
 }
 
+/* Sweeps a rule left-to-right for the dwell of the active card. */
+@keyframes progress {
+  from { transform: scaleX(0); }
+  to   { transform: scaleX(1); }
+}
+
+/* Draws a connector line on, holds, then fades. stroke-dasharray is set on the
+   element so one keyframe serves lines of any length. */
+@keyframes draw-line {
+  0%   { stroke-dashoffset: 1000; opacity: 0; }
+  15%  { opacity: 1; }
+  70%  { stroke-dashoffset: 0; opacity: 1; }
+  100% { stroke-dashoffset: 0; opacity: 0; }
+}
+
 @keyframes slide-in-right {
   from { transform: translateX(100%); }
   to   { transform: translateX(0); }
@@ -207,6 +218,18 @@
 .animate-appear-zoom {
   animation: appear-zoom 0.5s ease-out forwards;
   opacity: 0;
+}
+
+.animate-progress {
+  animation: progress var(--dwell, 6000ms) linear forwards;
+  transform-origin: left;
+}
+
+.connector-line {
+  stroke: hsl(var(--accent));
+  stroke-width: 1.2;
+  stroke-dasharray: 1000;
+  animation: draw-line 7s ease-out infinite;
 }
 
 .animate-slide-in-right {
@@ -232,4 +255,7 @@
     opacity: 1;
     transform: none;
   }
+  /* No sweeping rules or self-drawing lines under reduced motion. */
+  .animate-progress { transform: scaleX(1); animation: none; }
+  .connector-line   { stroke-dashoffset: 0; opacity: 0.5; animation: none; }
 }

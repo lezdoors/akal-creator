@@ -13,8 +13,12 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall }) => {
 
   return (
     <section className="relative overflow-hidden px-6 md:px-10 pt-32 pb-16 md:pt-40 md:pb-24">
-      {/* The reference hero treatment, 1:1: a full-bleed background film at
-          opacity-80 under a left-dark scrim and the hairline lattice. The
+      {/* Our own film now, not the template's: pulses of magenta travelling
+          the brass channel toward camera, generated image-to-video off the
+          corridor still so the hero and the Manifesto column are the same
+          machine. Poster is cut from the film's own first frame, so the still
+          and the video can never mismatch. Full-bleed at opacity-80 under a
+          left-dark scrim and the hairline lattice. The
           ledger is opaque and sits on top, so the film reads in the margins
           around it — same mechanics as the lattice. 8s seamless loop, muted,
           playsInline; metadata preload so the 3.3MB file never blocks paint.
@@ -23,15 +27,15 @@ export const Hero: React.FC<HeroProps> = ({ onBookCall }) => {
       <div aria-hidden className="hero-film pointer-events-none absolute inset-0">
         {reduced ? (
           <img
-            src="/images/ref-hero-poster.webp"
+            src="/images/mo-hero-poster.webp"
             alt=""
             className="absolute inset-0 w-full h-full object-cover opacity-80"
           />
         ) : (
           <video
             className="absolute inset-0 w-full h-full object-cover opacity-80"
-            src="/images/ref-hero.mp4"
-            poster="/images/ref-hero-poster.webp"
+            src="/images/mo-hero.mp4"
+            poster="/images/mo-hero-poster.webp"
             autoPlay
             muted
             loop

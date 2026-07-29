@@ -118,11 +118,16 @@ const KEEPS: readonly Guarantee[] = [
  * atmosphere only; every claim stays in our copy. Card 05 (the wide closer)
  * deliberately has no frame: it spans below both columns.
  */
+/* One continuous event across four frames, not four pictures: beam touches ->
+   glass melts amber -> groove cools -> the mark remains. Generated
+   image-to-image off frame 1, which is the only way to hold a camera across
+   separate generations — four text prompts saying "same fixed camera" produce
+   four different machines, which is exactly what the first attempt did. */
 const FRAMES = [
-  '/images/ref-isolated.webp',
-  '/images/ref-encrypted.webp',
-  '/images/ref-permissions.webp',
-  '/images/ref-audit.webp',
+  '/images/mo-etch-1.webp',
+  '/images/mo-etch-2.webp',
+  '/images/mo-etch-3.webp',
+  '/images/mo-etch-4.webp',
 ] as const;
 
 const FRAME_DWELL_MS = 3000;
